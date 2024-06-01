@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.portfolio.www.board.dao.mybatis.BoardRepository">
+
+<!-- 공지사 List 가져오기  -->
+	<select id="getList" parameterType="java.util.HashMap" resultType="BoardDto">
+    SELECT b.board_seq ,
+    	   b.board_type_seq , 
+    	   bt.board_type_nm , 
+    	   b.title ,
+    	   b.content, 
+    	   b.hit ,
+    	   b.del_yn ,
+    	   b.reg_dtm ,
+    	   b.reg_member_seq ,
+    	   b.update_dtm ,
+    	   b.update_member_seq,
+    	   m.member_id
+      FROM board b
+      JOIN board_type bt ON bt.board_type_seq  = b.board_type_seq 
+      JOIN member m ON m.member_seq  = b.reg_member_seq 
+     WHERE bt.board_type_seq = 3
+     ORDER BY b.board_seq DESC
+     LIMIT ${start}, ${size}
+     
+   
+    </select>
+
+<!-- 전체 페이지 개수 가져오기  -->
+	<select id="getTotalCount" resultType="int">
+	SELECT count(*)
+	  FROM board
+	 WHERE board_type_seq = 3
+	</select>
+	
+	<!-- readPage -->
+	<select id="getRead" parameterType="String" resultType="BoardDto">
+    SELECT b.board_seq , 
+    	   b.board_type_seq , 
+    	   bt.board_type_nm , 
+    	   b.title , 
+    	   b.content, 
+    	   b.hit ,
+    	   b.del_yn ,
+    	   b.reg_dtm ,
+    	   b.reg_member_seq ,
+    	   b.update_dtm ,
+    	   b.update_member_seq, 
+    	   m.member_id
+      FROM board b 
+      JOIN board_type bt ON bt.board_type_seq  = b.board_type_seq
+      JOIN member m ON m.member_seq  = b.reg_member_seq
+     WHERE 1 = 1
+       AND b.board_seq = #{boardSeq}
+   
+    </select>
+    
+    <!-- write -->
+     <insert id = "addBoard" parameterType="java.util.HashMap">
+    <selectKey resultType="String" keyProperty="boardSeq" keyColumn="board_seq" order="AFTER" >
+    SELECT LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO forum.board (board_type_seq, title, content, reg_dtm, reg_member_seq )
+    VALUES( '3', #{title}, #{trumbowyg-demo}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'), '51');
+    </insert>
+    
+        <!-- 첨부파일  -->
+     <insert id = "addFile" parameterType="BoardAttachDto">
+    <selectKey resultType="String" keyProperty="boardSeq" keyColumn="board_seq" order="AFTER" >
+    SELECT LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO forum.board_attach 
+    ( board_seq, board_type_seq, org_file_nm, save_path, chng_file_nm, file_size, file_type, access_uri, reg_dtm)
+	VALUES( #{boardSeq}, 3, #{orgFileNm}, #{savePath}, #{chngFileNm}, #{fileSize}, #{fileType}, #{accessUri}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'));
+    </insert>
+    
+</mapper>
+
+  

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.portfolio.www.auth.dao.mybatis.MemberAuthRepository">
+
+<!-- authinfo insert하기  -->
+	<insert id = "addAuthInfo" parameterType = "MemberAuthDto" >
+	 <selectKey resultType="int" keyProperty="authSeq" keyColumn="auth_seq" order="AFTER" >
+    SELECT LAST_INSERT_ID()
+    </selectKey>
+	INSERT INTO forum.member_auth
+	(member_seq, auth_num, auth_uri, reg_dtm, expire_dtm, auth_yn)
+	VALUES(#{memberSeq}, '', #{authUri}, DATE_FORMAT(NOW(),'%Y%m%d%H%i%s'), #{expireDtm}, 'N');
+	</insert>
+
+
+<!-- uri로 memberAuthDto 가져오기  -->
+	<select id="getMemberAuthDto" parameterType="String" resultType="MemberAuthDto">
+	SELECT auth_seq,
+		   member_seq,
+		   auth_num,
+		   auth_uri, 
+		   reg_dtm, 
+		   expire_dtm, 
+		   auth_yn 
+	  FROM forum.member_auth
+	 WHERE auth_uri= #{uri} 
+	   AND auth_yn = 'N'
+	
+	</select>
+
+	<update id="updateAuthYn" parameterType="int">
+	UPDATE forum.member_auth
+	   SET expire_dtm = DATE_FORMAT(NOW(),'%Y%m%d%H%i%s'), auth_yn='Y'
+	 WHERE auth_seq = #{authSeq} AND auth_yn='N'
+	</update>
+
+
+</mapper>

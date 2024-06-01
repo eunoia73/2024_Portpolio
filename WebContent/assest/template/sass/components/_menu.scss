@@ -1,0 +1,152 @@
+//this scss file contains the necessary style for menu style 1, changing this file will result on change of menu containing modifier class .menu--stye1
+
+/*****************************
+	--- MENU
+*****************************/
+.top-menu-area .logo{
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+/*menu style 1*/
+.menu--style1{
+  .top-menu-area{
+    background: #fff;
+  }
+  .mainmenu, .mainmenu__menu{
+    background: $pcolor;
+  }
+  .mainmenu__menu ul li {
+     &:hover{
+      a{
+        color: #333;
+      }
+    }
+    a{
+      color: #fff;
+    }
+  }
+  .searc-wrap input{
+    background: transparentize(#fff,.8);
+    border: 0;
+    color: #ffffff;
+    font-weight: 400;
+  }
+  .searc-wrap input::-webkit-input-placeholder {
+    color: #fff;
+  }
+  .searc-wrap input::-moz-placeholder{
+    color: #fff;
+  }
+  .searc-wrap input:-ms-input-placeholder{
+    color: #fff;
+  }
+  .searc-wrap .search-wrap__btn{
+    background: #fff;
+    color: $pcolor;
+  }
+}
+
+/* menu style 2 */
+.menu--style2{
+  .author-area__seller-btn, .searc-wrap input,
+  .searc-wrap .search-wrap__btn{
+    border-radius: 4px;
+  }
+  .searc-wrap .search-wrap__btn{
+    width: 60px;
+  }
+}
+
+.menu--style3{
+  .top-menu-area{
+    background: #262b30;
+    .author__notification_area ul li span.lnr{
+      color: #9ba9b7;
+    }
+    .autor__info {
+      .name{
+        color: #fff;
+      }
+      .ammount{
+        color: #bbc4ce;
+      }
+    }
+  }
+}
+
+.menu--style6{
+  .mainmenu__menu{
+    background: none;
+    flex: 2;
+    .navbar-collapse{
+      float: none;
+      justify-content: flex-end;
+      .has_megamenu .dropdown_megamenu{
+        width: 100%;
+        .megamnu_module .menu_items{
+          display: flex;
+          flex-wrap: wrap;
+          .menu_column{
+            float: none;
+          }
+        }
+      }
+    }
+  }
+  .mainmenu{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    .author-author__info{
+      float:none;
+      margin-left: auto;
+    }
+  }
+}
+.navbar-nav{
+  flex-wrap: wrap;
+}
+
+/* menu style 2 */
+.not_logged_in{
+  display: flex;
+  .author__notification_area{
+    display: flex;
+    align-items: center;
+    @media (min-width: 768px) {
+      margin-right: 30px;
+    }
+    @media (max-width:575px){
+      .dropdowns.dropdown--cart{
+        right: -100px;
+      }
+      .dropdowns.dropdown--cart:before{
+        right: 100px;
+      }
+    }
+    @media (max-width:440px){
+      .dropdowns.dropdown--cart{
+        width: 280px;
+      }
+      .dropdowns.dropdown--cart .cart_area .cart_product{
+        padding: 15px;
+      }
+    }
+    margin-right: 20px;
+    ul li{
+      padding: 0;
+    }
+  }
+}
+
+.pull-right.mobile-size {
+  white-space: nowrap;
+  a{
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
