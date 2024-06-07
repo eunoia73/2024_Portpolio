@@ -20,7 +20,6 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 @Service
 public class JoinService {
 
-//	private MemberRepository memberRepository;
 //
 //	public void setMemberRepository(MemberRepository memberRepository) {
 //		this.memberRepository = memberRepository;
@@ -29,7 +28,7 @@ public class JoinService {
 	@Autowired
 	private MemberRepository memberRepository;
 
-	@Autowired 
+	@Autowired
 	private MemberAuthRepository authRepository;
 
 //	public void setMemberAuthRepository(MemberAuthRepository authRepository) {
@@ -43,7 +42,6 @@ public class JoinService {
 //		this.emailUtil = emailUtil;
 //	}
 
-	
 	public MemberDto login(HashMap<String, String> params) throws EmptyResultDataAccessException {
 		// 사용자 찾기
 		MemberDto member = memberRepository.getMember(params.get("memberId"));
@@ -64,10 +62,9 @@ public class JoinService {
 		return result.verified ? member : null;
 		// 예외의 전파 예외를 다시 앞으로 던진다.
 
-	}	
-	
-	
-	//회원가입 
+	}
+
+	// 회원가입
 	public int join(HashMap<String, String> params) {
 
 		System.out.println("service========" + params);
@@ -99,7 +96,7 @@ public class JoinService {
 //
 
 		// 중복아이디 여부 확인하기
-		int memberCnt = memberRepository.existMemberId(params.get("memberId"));
+		int memberCnt = existMemberId(params);
 
 		int cnt = -1;
 		if (memberCnt != 1) {
@@ -133,7 +130,7 @@ public class JoinService {
 			email.setText(html);
 
 			// 보내기
-			emailUtil.sendMail(email, true);
+			sendMail(email);
 //				
 //			}
 
@@ -143,6 +140,19 @@ public class JoinService {
 
 	}
 
+	// 메일보내기
+	private void sendMail(EmailDto email) {
+		emailUtil.sendMail(email, true);
+	}
+
+	
+	// 중복아이디 여부 확인하기 
+	public int existMemberId(HashMap<String, String> params) {
+		int memberCnt = memberRepository.existMemberId(params.get("memberId"));
+		return memberCnt;
+	}
+
+	// 메일 인증 
 	public boolean mailAuth(String uri) {
 
 		MemberAuthDto dto = authRepository.getMemberAuthDto(uri);
@@ -153,9 +163,9 @@ public class JoinService {
 		boolean result = now < dto.getExpireDtm();
 
 		// 인증여부 변경하기
-		
+
 		int update = authRepository.updateAuthYn(dto.getAuthSeq());
-		
+
 		return result;
 	}
 }

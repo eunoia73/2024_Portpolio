@@ -38,7 +38,14 @@ public class JoinController {
 		ModelAndView mv = new ModelAndView();
 
 		System.out.println("========params" + params);
-
+//
+//		MemberDto memberDto = new MemberDto();
+//		memberDto.setMemberId(params.get("memberId"));
+//		memberDto.setPasswd(params.get("passwd"));
+//		memberDto.setMemberNm(params.get("memberNm"));
+//		memberDto.setEmail(params.get("email"));
+//		
+		
 		int result = joinService.join(params);
 
 		// result가 "0000"이면 회원가입 성공!

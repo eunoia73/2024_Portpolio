@@ -1,6 +1,11 @@
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,maven,intellij,eclipse,windows,macos
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,maven,intellij,eclipse,windows,macos
 
+#추가
+context-beans.xml
+context-beans-test.xml
+
+
 ### Eclipse ###
 .metadata
 bin/
