@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.portfolio.www.board.dao.mybatis.BoardAttachRepository">
+
+	    <!-- 첨부파일  -->
+     <insert id = "addFile" parameterType="BoardAttachDto">
+    <selectKey resultType="String" keyProperty="boardSeq" keyColumn="board_seq" order="AFTER" >
+    SELECT LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO forum.board_attach 
+    ( board_seq, board_type_seq, org_file_nm, save_path, chng_file_nm, file_size, file_type, access_uri, reg_dtm)
+	VALUES( #{boardSeq}, 3, #{orgFileNm}, #{savePath}, #{chngFileNm}, #{fileSize}, #{fileType}, #{accessUri}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'));
+    </insert>
+    
+</mapper>
