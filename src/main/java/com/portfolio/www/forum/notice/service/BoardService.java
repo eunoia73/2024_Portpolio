@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,24 +17,29 @@ import com.portfolio.www.util.FileUtil;
 
 @Service
 public class BoardService {
-	private BoardRepository boardRepository;
-	public BoardService() {}
-
-	public BoardService(BoardRepository boardRepository) {
-		this.boardRepository = boardRepository;
-	}
 	
+	@Autowired
+	private BoardRepository boardRepository;
+	
+//	public BoardService() {}
+//
+//	public BoardService(BoardRepository boardRepository) {
+//		this.boardRepository = boardRepository;
+//	}
+//	
+	@Autowired
 	private BoardAttachRepository boardAttachRepository;
 
-	public BoardService(BoardAttachRepository boardAttachRepository) {
-		this.boardAttachRepository = boardAttachRepository;
-	}
-
+//	public BoardService(BoardAttachRepository boardAttachRepository) {
+//		this.boardAttachRepository = boardAttachRepository;
+//	}
+//
+	@Autowired
 	private FileUtil fileUtil;
 
-	public BoardService(FileUtil fileUtil) {
-		this.fileUtil = fileUtil;
-	}
+//	public BoardService(FileUtil fileUtil) {
+//		this.fileUtil = fileUtil;
+//	}
 
 	// 리스트 가져오기
 	public List<BoardDto> getList(HashMap<String, String> params) {
@@ -41,7 +47,7 @@ public class BoardService {
 		return boardRepository.getList(params);
 	}
 
-	// 페이징 전체 게시물 개수 가져오
+	// 페이징 전체 게시물 개수 가져오기 
 	public int getTotalCount() {
 		return boardRepository.getTotalCount();
 	}
@@ -58,8 +64,11 @@ public class BoardService {
 
 		try {
 			// 게시글 입력
-			int pk = boardRepository.addBoard(params);
-			System.out.println("--------------------pk : " + pk);
+			//board table에 insert
+			boardRepository.addBoard(params);
+			int boardSeq = Integer.parseInt(params.get("boardSeq"));
+			
+			
 			// DTO만든다 값을 매핑 -> 테이블에 입력
 			for (MultipartFile mf : mfs) {
 				if (!mf.isEmpty()) { // 업로드된 파일이 비어있지 않은 경우에만 파일 저장 및 DB에 정보 저장
@@ -67,7 +76,7 @@ public class BoardService {
 					destFile = fileUtil.saveFile(mf);
 
 					BoardAttachDto attachDto = new BoardAttachDto();
-					attachDto.setBoardSeq(pk);
+					attachDto.setBoardSeq(boardSeq);
 					attachDto.setBoardTypeSeq(3);
 					attachDto.setOrgFileNm(mf.getOriginalFilename());
 					attachDto.setChngFileNm(destFile.getName());
@@ -89,5 +98,12 @@ public class BoardService {
 		}
 		// 첨부파일 물리적 저장
 	}
+	
+	public boolean write(HashMap<String, String> params) {
+		
+		boardRepository.addBoard(params);
+		return true;
+	}
+	
 
 }

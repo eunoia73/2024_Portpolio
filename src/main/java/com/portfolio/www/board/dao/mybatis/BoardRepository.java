@@ -3,8 +3,11 @@ package com.portfolio.www.board.dao.mybatis;
 import java.util.HashMap;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.portfolio.www.board.dto.BoardDto;
 
+@Repository
 public interface BoardRepository {
 
 	//board List 가져오기 
@@ -18,4 +21,6 @@ public interface BoardRepository {
 	
 	//write 
 	public int addBoard(HashMap<String, String> params);
+	
+	
 }
