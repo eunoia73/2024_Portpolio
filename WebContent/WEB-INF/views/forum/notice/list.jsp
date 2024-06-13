@@ -33,7 +33,7 @@ String ctx = request.getContextPath();
 											<tr>
 												<td>${i.boardSeq}</td>
 												<td><a
-													href="<c:url value='/forum/notice/readPage.do?boardSeq=${i.boardSeq }'/>">
+													href="<c:url value='/forum/notice/readPage.do?boardSeq=${i.boardSeq }&boardTypeSeq=${i.boardTypeSeq }'/>">
 														${i.title } </a></td>
 												<td>${i.regDtm }</td>
 												<td>${i.regMemberId }</td>

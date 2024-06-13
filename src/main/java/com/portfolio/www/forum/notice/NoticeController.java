@@ -1,15 +1,20 @@
 package com.portfolio.www.forum.notice;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.portfolio.www.board.dto.BoardAttachDto;
 import com.portfolio.www.forum.notice.service.BoardService;
 import com.portfolio.www.message.MessageEnum;
 
@@ -18,6 +23,8 @@ public class NoticeController {
 
 	@Autowired
 	private BoardService boardService;
+	
+
 
 	@RequestMapping("/forum//notice/listPage.do")
 	public ModelAndView listPage(@RequestParam HashMap<String, String> params) {
@@ -79,14 +86,16 @@ public class NoticeController {
 			) {
 		
 		System.out.println("controller==="+params);
-		System.out.println(attFiles);
+		System.out.println(attFiles[0]);
+		System.out.println(attFiles[1]);
+		System.out.println(attFiles[2]);
 		
 		boolean result = boardService.write(params, attFiles);
 		
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 		mv.addObject("result", result);
-		if (result) {
+		if (result) { 
 			mv.addObject("code", MessageEnum.SUCCESS.getCode());
 			mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
 		}else {
@@ -99,14 +108,37 @@ public class NoticeController {
 	}
 
 
+	//READ 
 	@RequestMapping("/forum/notice/readPage.do")
 	public ModelAndView readPage(@RequestParam HashMap<String, String> params) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 		mv.setViewName("forum/notice/read");
+		
 		mv.addObject("board", boardService.getRead(params.get("boardSeq")));
-
+		
+		// 첨부파일
+		mv.addObject("attFile", boardService.getAllAttFile(Integer.parseInt(params.get("boardSeq")),
+				Integer.parseInt(params.get("boardTypeSeq"))));
+		
+//		
+//		
 		return mv;
 	}
+	
+	//파일 다운로드 
+	@GetMapping("/forum/download.do")
+	public String download2(Model model, @RequestParam("attachSeq") int attachSeq) {
+		BoardAttachDto dto = boardService.getDownloadFileInfo(attachSeq);
+		File file = new File(dto.getSavePath());
+
+		Map<String, Object> fileInfo = new HashMap<>();
+		fileInfo.put("downloadFile", file);
+		fileInfo.put("orgFileNm", dto.getOrgFileNm());
+		model.addAttribute("fileInfo", fileInfo);
+
+		return "fileDownloadView"; // pf-servlet에 등록한 View
+	}
+	
 
 }
