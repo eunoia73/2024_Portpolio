@@ -9,7 +9,7 @@ import com.portfolio.www.board.dto.BoardDto;
 
 @Repository
 public interface BoardRepository {
-
+ 
 	//board List 가져오기 
 	public List<BoardDto> getList(HashMap<String, String> params);
 	
@@ -22,5 +22,6 @@ public interface BoardRepository {
 	//write 
 	public int addBoard(HashMap<String, String> params);
 	
+
 	
 }

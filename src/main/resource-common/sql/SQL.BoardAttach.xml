@@ -4,14 +4,29 @@
 
 <mapper namespace="com.portfolio.www.board.dao.mybatis.BoardAttachRepository">
 
-	    <!-- 첨부파일  -->
+	  <!-- 첨부파일  -->
      <insert id = "addFile" parameterType="BoardAttachDto">
-    <selectKey resultType="String" keyProperty="boardSeq" keyColumn="board_seq" order="AFTER" >
+    <selectKey resultType="int" keyProperty="boardSeq" keyColumn="board_seq" order="AFTER" >
     SELECT LAST_INSERT_ID()
     </selectKey>
     INSERT INTO forum.board_attach 
     ( board_seq, board_type_seq, org_file_nm, save_path, chng_file_nm, file_size, file_type, access_uri, reg_dtm)
 	VALUES( #{boardSeq}, 3, #{orgFileNm}, #{savePath}, #{chngFileNm}, #{fileSize}, #{fileType}, #{accessUri}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'));
     </insert>
+    
+    <!-- 전체파일 정보 가져오기   -->
+    <select id = "getAllAttachInfo" resultType = "BoardAttachDto">
+    SELECT *
+	FROM forum.board_attach
+	WHERE board_seq = #{boardSeq} AND board_Type_Seq = #{boardTypeSeq} 
+    </select>
+    
+    
+    <!-- 파일 다운로드하기  -->
+    <select id = "getAttachInfo" parameterType="int" resultType="BoardAttachDto">
+    SELECT * FROM board_attach
+    WHERE attach_seq = #{attachSeq}
+    </select>
+    
     
 </mapper>

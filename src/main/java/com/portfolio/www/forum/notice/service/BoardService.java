@@ -17,10 +17,10 @@ import com.portfolio.www.util.FileUtil;
 
 @Service
 public class BoardService {
-	
+
 	@Autowired
 	private BoardRepository boardRepository;
-	
+
 //	public BoardService() {}
 //
 //	public BoardService(BoardRepository boardRepository) {
@@ -41,13 +41,23 @@ public class BoardService {
 //		this.fileUtil = fileUtil;
 //	}
 
+	// 파일 다운로드
+	public BoardAttachDto getDownloadFileInfo(int attachSeq) {
+		return boardAttachRepository.getAttachInfo(attachSeq);
+	}
+
+	// 모든 파일 정보 불러오기
+	public List<BoardAttachDto> getAllAttFile(int boardSeq, int boardTypeSeq) {
+		return boardAttachRepository.getAllAttachInfo(boardSeq, boardTypeSeq);
+	}
+
 	// 리스트 가져오기
 	public List<BoardDto> getList(HashMap<String, String> params) {
 		System.out.println("service====params===" + params);
 		return boardRepository.getList(params);
 	}
 
-	// 페이징 전체 게시물 개수 가져오기 
+	// 페이징 전체 게시물 개수 가져오기
 	public int getTotalCount() {
 		return boardRepository.getTotalCount();
 	}
@@ -64,15 +74,18 @@ public class BoardService {
 
 		try {
 			// 게시글 입력
-			//board table에 insert
+			// board table에 insert
 			boardRepository.addBoard(params);
 			int boardSeq = Integer.parseInt(params.get("boardSeq"));
-			
-			
+
+			System.out.println("service=====" + mfs);
+
 			// DTO만든다 값을 매핑 -> 테이블에 입력
 			for (MultipartFile mf : mfs) {
-				if (!mf.isEmpty()) { // 업로드된 파일이 비어있지 않은 경우에만 파일 저장 및 DB에 정보 저장
-					// 물리적 파일 저장
+
+				if (!mf.isEmpty()) { // 업로드된 파일이 비어있지 않은 경우에만 파일 저장 및 DB에
+
+					// 1. 첨부파일 물리적 저장
 					destFile = fileUtil.saveFile(mf);
 
 					BoardAttachDto attachDto = new BoardAttachDto();
@@ -84,10 +97,14 @@ public class BoardService {
 					attachDto.setFileSize(mf.getSize());
 					attachDto.setSavePath(destFile.getAbsolutePath());
 
+					System.out.println("attachDto=====" + attachDto);
+
 					// Dao만들어 테이블 저장
 					boardAttachRepository.addFile(attachDto);
+
 				}
 			}
+
 			return true;
 
 		} catch (Exception e) {
@@ -98,12 +115,11 @@ public class BoardService {
 		}
 		// 첨부파일 물리적 저장
 	}
-	
+
 	public boolean write(HashMap<String, String> params) {
-		
+
 		boardRepository.addBoard(params);
 		return true;
 	}
-	
 
 }
