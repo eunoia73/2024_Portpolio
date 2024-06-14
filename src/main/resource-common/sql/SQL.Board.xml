@@ -67,6 +67,51 @@
     </insert>
     
     
+    <!-- 좋아요  -->
+   	<insert id = "addBoardLike" parameterType="BoardLikeDto">
+   	INSERT INTO forum.board_like
+	(board_seq, board_type_seq, member_seq, ip, reg_dtm)
+	VALUES(#{boardSeq}, #{boardTypeSeq}, #{memberSeq}, #{ip}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'));
+   	</insert>
+    
+    <!-- 좋아요 여부  -->
+    <select id = "existsLike" parameterType="int" resultType="int">
+    SELECT COUNT(1) FROM forum.board_like
+     WHERE board_seq = #{boardSeq}
+       AND board_type_seq = #{boardTypeSeq}
+       AND member_seq = #{memberSeq}
+    </select>
+    
+    <!-- 좋아요 삭제하기  -->
+    <delete id = "deleteLike" parameterType="int">
+    DELETE FROM forum.board_like
+    WHERE board_seq = #{boardSeq}
+      AND board_type_seq = #{boardTypeSeq}
+      AND member_seq = #{memberSeq}
+    </delete>
+    
+    <!-- 싫어요  -->
+   	<insert id = "addBoardDisLike" parameterType="BoardLikeDto">
+   	INSERT INTO forum.board_dislike
+	(board_seq, board_type_seq, member_seq, ip, reg_dtm)
+	VALUES(#{boardSeq}, #{boardTypeSeq}, #{memberSeq}, #{ip}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'));
+   	</insert>
+    
+    <!-- 싫어요 여부  -->
+    <select id = "existsDisLike" parameterType="int" resultType="int">
+    SELECT COUNT(1) FROM forum.board_dislike
+     WHERE board_seq = #{boardSeq}
+       AND board_type_seq = #{boardTypeSeq}
+       AND member_seq = #{memberSeq}
+    </select>
+    
+    <!-- 싫어요 삭제하기  -->
+    <delete id = "deleteDisLike" parameterType="int">
+    DELETE FROM forum.board_dislike
+    WHERE board_seq = #{boardSeq}
+      AND board_type_seq = #{boardTypeSeq}
+      AND member_seq = #{memberSeq}
+    </delete>
     
 </mapper>
 

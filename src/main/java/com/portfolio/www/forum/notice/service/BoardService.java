@@ -13,6 +13,7 @@ import com.portfolio.www.board.dao.mybatis.BoardAttachRepository;
 import com.portfolio.www.board.dao.mybatis.BoardRepository;
 import com.portfolio.www.board.dto.BoardAttachDto;
 import com.portfolio.www.board.dto.BoardDto;
+import com.portfolio.www.board.dto.BoardLikeDto;
 import com.portfolio.www.util.FileUtil;
 
 @Service
@@ -40,6 +41,78 @@ public class BoardService {
 //	public BoardService(FileUtil fileUtil) {
 //		this.fileUtil = fileUtil;
 //	}
+	
+	
+
+	//좋아요 여부 
+	public int getLike(int boardSeq, int boardTypeSeq, int memberSeq) {
+		return boardRepository.existsLike(boardSeq, boardTypeSeq, memberSeq);
+	}
+	
+	
+	// 좋아요
+	public int thumbUp(int boardSeq, int boardTypeSeq, int memberSeq, String ip) {
+
+		int cnt = boardRepository.existsLike(boardSeq, boardTypeSeq, memberSeq);
+		int result = -1;
+
+		// 좋아요 있으면 삭제
+		if (cnt == 1) {
+			boardRepository.deleteLike(boardSeq, boardTypeSeq, memberSeq);
+			boardRepository.deleteDisLike(boardSeq, boardTypeSeq, memberSeq);
+
+			result = 0;
+		} else {
+			boardRepository.deleteDisLike(boardSeq, boardTypeSeq, memberSeq);
+			BoardLikeDto likeDto = new BoardLikeDto();
+			likeDto.setBoardSeq(boardSeq);
+			likeDto.setBoardTypeSeq(boardTypeSeq);
+			likeDto.setMemberSeq(memberSeq);
+			likeDto.setIp(ip);
+
+			// insert
+			result = boardRepository.addBoardLike(likeDto);
+
+		}
+
+		return result;
+
+	}
+	
+	//싫어요 여부 
+	public int getDisLike(int boardSeq, int boardTypeSeq, int memberSeq) {
+		return boardRepository.existsDisLike(boardSeq, boardTypeSeq, memberSeq);
+	}
+	
+	
+	// 싫어요
+		public int thumbDown(int boardSeq, int boardTypeSeq, int memberSeq, String ip) {
+
+			int cnt = boardRepository.existsDisLike(boardSeq, boardTypeSeq, memberSeq);
+			int result = -1;
+
+			// 싫어요 있으면 삭제
+			if (cnt == 1) {
+				
+				boardRepository.deleteDisLike(boardSeq, boardTypeSeq, memberSeq);
+				result = 0;
+			} else {
+				//좋아요와 싫어요는 중복될 수 없다!
+				boardRepository.deleteLike(boardSeq, boardTypeSeq, memberSeq);
+				BoardLikeDto disLikeDto = new BoardLikeDto();
+				disLikeDto.setBoardSeq(boardSeq);
+				disLikeDto.setBoardTypeSeq(boardTypeSeq);
+				disLikeDto.setMemberSeq(memberSeq);
+				disLikeDto.setIp(ip);
+
+				// insert
+				result = boardRepository.addBoardDisLike(disLikeDto);
+
+			}
+
+			return result;
+
+		}
 
 	// 파일 다운로드
 	public BoardAttachDto getDownloadFileInfo(int attachSeq) {

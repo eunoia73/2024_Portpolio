@@ -3,9 +3,11 @@ package com.portfolio.www.board.dao.mybatis;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import com.portfolio.www.board.dto.BoardDto;
+import com.portfolio.www.board.dto.BoardLikeDto;
 
 @Repository
 public interface BoardRepository {
@@ -22,6 +24,23 @@ public interface BoardRepository {
 	//write 
 	public int addBoard(HashMap<String, String> params);
 	
-
+	//좋아요 insert 
+	public int addBoardLike(BoardLikeDto likeDto);
+	
+	//좋아요 여부 
+	public int existsLike(@Param("boardSeq") int boardSeq, @Param("boardTypeSeq") int boardTypeSeq, @Param("memberSeq") int memberSeq);
+	
+	//좋아요 삭제하기
+	public int deleteLike(@Param("boardSeq") int boardSeq,  @Param("boardTypeSeq")int boardTypeSeq, @Param("memberSeq")int memberSeq);
+	
+	//싫어요 insert 
+	public int addBoardDisLike(BoardLikeDto likeDto);
+		
+	//싫어요 여부 
+	public int existsDisLike(@Param("boardSeq") int boardSeq, @Param("boardTypeSeq") int boardTypeSeq, @Param("memberSeq") int memberSeq);
+		
+	//싫어요 삭제하기
+	public int deleteDisLike(@Param("boardSeq") int boardSeq,  @Param("boardTypeSeq")int boardTypeSeq, @Param("memberSeq")int memberSeq);
+		
 	
 }

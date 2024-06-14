@@ -8,19 +8,6 @@ String ctx = request.getContextPath();
 	href="<%=ctx%>/assest/template/css/trumbowyg.min.css">
 <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg.min.js"></script>
 <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg/ko.js"></script>
-<script type="text/javascript">
-	$('#trumbowyg-demo').trumbowyg({
-		lang : 'kr'
-	});
-	
-    //다운로드 기능
-    function download(attachSeq){
-    	let url = '<%=ctx%>
-	/form/notice/attach.do';
-		url += '?attachSeq=' + attachSeq;
-	}
-</script>
-
 <!--================================
             START DASHBOARD AREA
     =================================-->
@@ -34,9 +21,20 @@ String ctx = request.getContextPath();
 							<h3>${board.title }</h3>
 
 							<div class="vote">
-								<a href="#"> <span class="lnr lnr-thumbs-up"></span>
-								</a> <a href="#"> <span class="lnr lnr-thumbs-down"></span>
+								<!-- 좋아요  -->
+								<a href="#" id='cThumbUpAnchor'
+									onClick="javascript:thumbUp(${board.boardSeq}, ${board.boardTypeSeq });"
+									<c:if test ='${liked == 1 }'> class = "active" </c:if>>
+									<span class="lnr lnr-thumbs-up"></span>
 								</a>
+
+								<!-- 싫어요  -->
+								<a href="#" id='cThumbDownAnchor' 
+								onClick="javascript:thumbDown(${board.boardSeq}, ${board.boardTypeSeq});"
+								<c:if test ='${disLiked == 1 }'> class = "active" </c:if>
+								>
+                                        <span class="lnr lnr-thumbs-down"></span>
+                                    </a>
 							</div>
 							<!-- end .vote -->
 						</div>
@@ -56,9 +54,10 @@ String ctx = request.getContextPath();
 							<c:if test="${attFile != null}">
 								<a
 									href='<%=ctx%>/forum/download.do?attachSeq=${attFile.attachSeq}'>
-									${attFile.attachSeq} ${attFile.orgFileNm} (${attFile.fileSize}) </a>
+									${attFile.attachSeq} ${attFile.orgFileNm} (${attFile.fileSize})
+								</a>
 							</c:if>
-						<br>
+							<br>
 						</c:forEach>
 
 
@@ -134,4 +133,107 @@ String ctx = request.getContextPath();
 <!--================================
             END DASHBOARD AREA
     =================================-->
+
+<script type="text/javascript">
+
+	$('#trumbowyg-demo').trumbowyg({
+		lang : 'kr'
+	});
+	
+    //다운로드 기능
+    function download(attachSeq){
+    	let url = '<%=ctx%>/form/notice/attach.do';
+		url += '?attachSeq=' + attachSeq;
+	}
+    
+    //좋아요 
+    function thumbUp(boardSeq, boardTypeSeq){
+    	console.log(boardSeq);
+    	console.log(boardTypeSeq);
+    	
+    	let url = '<%=ctx%>/forum//notice/thumb-up.do?';
+    	url += 'boardSeq=' + boardSeq;
+    	url += '&boardTypeSeq=' + boardTypeSeq;
+    	
+
+    	$.ajax({    
+    		// 타입 (get, post, put 등등)    
+    		type : 'GET',           
+    		// 요청할 서버url
+    		url : url,
+    		// 비동기화 여부 (default : true)
+    		/* async : true, */
+			// Http header
+    		headers : {
+    			"Content-Type" : "application/json"
+    			/* "X-HTTP-Method-Override" : "POST" */
+    		},
+    		dataType : 'text',
+			// 결과 성공 콜백함수 - 비동기통신은 콜백이 항상 있어야한다
+    		success : function(result) {
+    			/* console.log(result); */
+			 if(result == 0){//삭제해도1이기에 구분
+	    			$('a#cThumbUpAnchor').removeClass('active');
+	    				
+	    			} else{
+	    				$('a#cThumbUpAnchor').addClass('active');
+	    			}
+    		},
+			// 결과 에러 콜백함수
+    		error : function(request, status, error) {
+    			console.log(error)
+    		}
+    	});
+
+    }
+    
+
+
+    //싫어요 
+    function thumbDown(boardSeq, boardTypeSeq){
+    	console.log(boardSeq);
+    	console.log(boardTypeSeq);
+    	
+    	let url = '<%=ctx%>/forum/notice';
+    	url += '/' + boardTypeSeq;
+    	url += '/' + boardSeq;
+    	url += '/thumb-down.do';
+    	
+    	
+
+    	$.ajax({    
+    		// 타입 (get, post, put 등등)    
+    		type : 'GET',           
+    		// 요청할 서버url
+    		url : url,
+    		// 비동기화 여부 (default : true)
+    		/* async : true, */
+			// Http header
+    		headers : {
+    			"Content-Type" : "application/json"
+    			/* "X-HTTP-Method-Override" : "POST" */
+    		},
+    		dataType : 'text',
+			// 결과 성공 콜백함수 - 비동기통신은 콜백이 항상 있어야한다
+    		success : function(result) {
+    			/* console.log(result); */
+			 if(result == 0){//삭제해도1이기에 구분
+	    			$('a#cThumbDownAnchor').removeClass('active');
+	    				
+	    			} else{
+	    				$('a#cThumbDownAnchor').addClass('active');
+	    			}
+    		},
+			// 결과 에러 콜백함수
+    		error : function(request, status, error) {
+    			console.log(error)
+    		}
+    	});
+
+    }
+    
+    
+    
+    
+</script>
 

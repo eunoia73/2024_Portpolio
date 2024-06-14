@@ -106,7 +106,7 @@ public class JoinController {
 			member = joinService.login(params);
 
 			if (!ObjectUtils.isEmpty(member)) {
-				// ㅅㅔ션처리
+				// 세션처리 
 				HttpSession session = request.getSession();
 				session.setAttribute("memberId", member.getMemberId());
 				mv.setViewName("index");
