@@ -24,7 +24,7 @@ public class NoticeController {
 	@Autowired
 	private BoardService boardService;
 	
-
+	
 
 	@RequestMapping("/forum//notice/listPage.do")
 	public ModelAndView listPage(@RequestParam HashMap<String, String> params) {
@@ -115,14 +115,32 @@ public class NoticeController {
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 		mv.setViewName("forum/notice/read");
 		
+		if(!params.containsKey("boardSeq")){
+			
+		}
+		
+		//만약 boardTypeSeq가 없으면?
+		if(!params.containsKey("boardTypeSeq")) {
+			params.put("boardTypeSeq", "3");
+		}
+		
+//		Integer boardSeq = Integer.parseInt(params.get("boardSeq"));
+//		Integer boardTypeSeq = Integer.parseInt(params.get("boardTypeSeq"));
+//		Integer memberSeq = Integer.parseInt(params.get("memberSeq"));
+		
 		mv.addObject("board", boardService.getRead(params.get("boardSeq")));
 		
 		// 첨부파일
 		mv.addObject("attFile", boardService.getAllAttFile(Integer.parseInt(params.get("boardSeq")),
 				Integer.parseInt(params.get("boardTypeSeq"))));
 		
+		//좋아요 
+		mv.addObject("liked", boardService.getLike(Integer.parseInt(params.get("boardSeq")), Integer.parseInt(params.get("boardTypeSeq")), -1));
 //		
-//		
+//		//싫어요 
+		mv.addObject("disLiked", boardService.getDisLike(Integer.parseInt(params.get("boardSeq")), Integer.parseInt(params.get("boardTypeSeq")), -1));
+
+		
 		return mv;
 	}
 	
