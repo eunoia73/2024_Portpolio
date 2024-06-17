@@ -17,7 +17,11 @@
     	   b.reg_member_seq , 
     	   b.update_dtm , 
     	   b.update_member_seq,
-    	   m.member_id
+    	   m.member_id,
+    	   (SELECT COUNT(*)
+			FROM board_attach ba 
+			WHERE ba.board_type_seq = b.board_type_seq 
+			AND ba.board_seq = b.board_seq)as "attachCnt"
       FROM board b
       JOIN board_type bt ON bt.board_type_seq  = b.board_type_seq 
       JOIN member m ON m.member_seq  = b.reg_member_seq 
@@ -65,6 +69,20 @@
     INSERT INTO forum.board (board_type_seq, title, content, reg_dtm, reg_member_seq )
     VALUES( '3', #{title}, #{trumbowyg-demo}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'), '51');
     </insert>
+    
+    
+    <!-- update -->
+    <update id = "updateBoard" parameterType="java.util.HashMap">
+    UPDATE forum.board
+	SET title=#{title}, content=#{content}, hit=0, del_yn='N', reg_dtm=DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'), reg_member_seq='51', update_dtm=DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'), update_member_seq=0
+	WHERE board_seq=#{boardSeq} AND board_type_seq=#{boardTypeSeq};
+    </update>
+    
+    <!-- delete -->
+    <delete id = "deleteBoard" parameterType="int">
+    DELETE FROM forum.board
+	WHERE board_seq=#{boardSeq} AND board_type_seq=#{boardTypeSeq};	
+    </delete>
     
     
     <!-- 좋아요  -->

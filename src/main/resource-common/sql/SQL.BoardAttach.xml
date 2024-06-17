@@ -21,12 +21,32 @@
 	WHERE board_seq = #{boardSeq} AND board_Type_Seq = #{boardTypeSeq} 
     </select>
     
+    <!-- 전체 파일 count 가져오기  -->
+    <select id = "getAllAttachCount" resultType = "int">
+    SELECT count(*)
+	FROM forum.board_attach
+	WHERE board_seq = #{boardSeq} AND board_Type_Seq = #{boardTypeSeq} 
+    </select>
     
     <!-- 파일 다운로드하기  -->
     <select id = "getAttachInfo" parameterType="int" resultType="BoardAttachDto">
     SELECT * FROM board_attach
     WHERE attach_seq = #{attachSeq}
     </select>
+    
+    <!-- 파일 삭제하기  -->
+    <delete id="deleteAttach" parameterType="int">
+    DELETE FROM forum.board_attach
+	 WHERE attach_seq = #{attachSeq}
+	
+    </delete>
+    
+    <!-- 게시글 번호 별 파일 삭제하기  -->
+    <delete id="deleteAllAttach" parameterType="int">
+     DELETE FROM forum.board_attach
+	 WHERE board_seq = #{boardSeq}
+	 AND board_type_seq = #{boardTypeSeq}
+    </delete>
     
     
 </mapper>

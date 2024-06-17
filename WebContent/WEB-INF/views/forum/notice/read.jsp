@@ -24,17 +24,16 @@ String ctx = request.getContextPath();
 								<!-- 좋아요  -->
 								<a href="#" id='cThumbUpAnchor'
 									onClick="javascript:thumbUp(${board.boardSeq}, ${board.boardTypeSeq });"
-									<c:if test ='${liked == 1 }'> class = "active" </c:if>>
-									<span class="lnr lnr-thumbs-up"></span>
+									<c:if test ='${liked == 1 }'> class = "active" </c:if>> <span
+									class="lnr lnr-thumbs-up"></span>
 								</a>
 
 								<!-- 싫어요  -->
-								<a href="#" id='cThumbDownAnchor' 
-								onClick="javascript:thumbDown(${board.boardSeq}, ${board.boardTypeSeq});"
-								<c:if test ='${disLiked == 1 }'> class = "active" </c:if>
-								>
-                                        <span class="lnr lnr-thumbs-down"></span>
-                                    </a>
+								<a href="#" id='cThumbDownAnchor'
+									onClick="javascript:thumbDown(${board.boardSeq}, ${board.boardTypeSeq});"
+									<c:if test ='${disLiked == 1 }'> class = "active" </c:if>>
+									<span class="lnr lnr-thumbs-down"></span>
+								</a>
 							</div>
 							<!-- end .vote -->
 						</div>
@@ -59,6 +58,22 @@ String ctx = request.getContextPath();
 							</c:if>
 							<br>
 						</c:forEach>
+
+
+						<!-- 수정버튼  -->
+						<form
+							action="<%=ctx %>/forum/notice/modifyPage.do?boardSeq=${board.boardSeq}&boardTypeSeq=${board.boardTypeSeq} "
+							method="post" class="comment-reply-form">
+							<button class="btn btn--sm btn--round">modify</button>
+						</form>
+
+						<!-- 삭제 버튼  -->
+						<form
+							action="<%=ctx %>/forum/notice/deleteBoard.do?boardSeq=${board.boardSeq}&boardTypeSeq=${board.boardTypeSeq} "
+							method="post" onsubmit="return confirmDelete();"
+							class="comment-reply-form">
+							<button class="btn btn--sm btn--round">delete</button>
+						</form>
 
 
 					</div>
@@ -139,6 +154,22 @@ String ctx = request.getContextPath();
 	$('#trumbowyg-demo').trumbowyg({
 		lang : 'kr'
 	});
+	
+	window.onload = function() {
+		var result = '${params.result}';
+		var msg = '${params.msg}';
+
+		if (result != '') {
+			alert(msg)
+/* 			window.location.href = '/11004/loginPage.do';
+ */		}
+	};
+	
+	// delete 확인 메시지 
+    function confirmDelete() {
+        return confirm("정말로 삭제하시겠습니까?");
+    }
+	
 	
     //다운로드 기능
     function download(attachSeq){

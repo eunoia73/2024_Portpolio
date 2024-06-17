@@ -14,6 +14,16 @@ public class BoardDto {
 	private String updateMemberSeq;
 	private String boardTypeNm;
 	private String regMemberId;
+	//첨부파일 개수 
+	private int attachCnt;
+
+	public int getAttachCnt() {
+		return attachCnt;
+	}
+
+	public void setAttachCnt(int attachCnt) {
+		this.attachCnt = attachCnt;
+	}
 
 	public String getRegMemberId() {
 		return regMemberId;
