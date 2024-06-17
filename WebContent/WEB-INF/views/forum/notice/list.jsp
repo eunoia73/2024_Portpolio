@@ -14,15 +14,15 @@ String ctx = request.getContextPath();
 
 							<div class="withdraw_table_header">
 								<h3>공지사항</h3>
-
-
 							</div>
 							<div class="table-responsive">
 								<table class="table withdraw__table">
 									<thead>
 										<tr>
 											<th>No</th>
+
 											<th>제목</th>
+
 											<th>Date</th>
 											<th>작성자</th>
 										</tr>
@@ -32,9 +32,21 @@ String ctx = request.getContextPath();
 										<c:forEach items="${list }" var="i">
 											<tr>
 												<td>${i.boardSeq}</td>
-												<td><a
-													href="<c:url value='/forum/notice/readPage.do?boardSeq=${i.boardSeq }&boardTypeSeq=${i.boardTypeSeq }'/>">
-														${i.title } </a></td>
+
+
+												<td>
+														<a
+															href="<c:url value='/forum/notice/readPage.do?boardSeq=${i.boardSeq }&boardTypeSeq=${i.boardTypeSeq }'/>">
+															${i.title }</a>
+															
+												<!--첨부파일 여부  -->
+															 <c:if test="${i.attachCnt > 0}"><span class="lnr lnr-paperclip"></span></c:if>
+												</td>
+
+
+
+
+
 												<td>${i.regDtm }</td>
 												<td>${i.regMemberId }</td>
 											</tr>
@@ -103,4 +115,15 @@ String ctx = request.getContextPath();
 	</div>
 	<!-- end .container -->
 </section>
+<script type="text/javascript">
+	window.onload = function() {
+		var result = '${result}';
+		var msg = '${msg}';
 
+		if (result != '') {
+			alert(msg)
+			/* 			window.location.href = '/11004/loginPage.do';
+			 */
+		}
+	};
+</script>

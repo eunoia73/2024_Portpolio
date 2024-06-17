@@ -10,6 +10,7 @@ public enum MessageEnum {
 	USER_NOT_FOUND("0202", "존재하지 않는 사용자 입니다."),
 	INVALID_ID_OR_PASSWORD("0203", "아이디 또는 비밀번호가 일치하지 않습니다. 다시 입력해 주세요."),
 	PASSWD_NOT_EQUAL("9001","비밀번호가 맞지 않습니다."),
+	FAIL("9999","실패했습니다."),
 
 	
 	VERIFY_ID_LENGTH("9001", "아이디는 7자리 이상이어야 합니다."),

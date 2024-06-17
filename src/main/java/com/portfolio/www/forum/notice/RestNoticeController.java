@@ -1,14 +1,18 @@
 package com.portfolio.www.forum.notice;
 
+import java.util.Calendar;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.portfolio.www.forum.notice.service.BoardService;
 
@@ -66,5 +70,13 @@ public class RestNoticeController {
 		return boardService.thumbDown(boardSeq, boardTypeSeq, memberSeq, ip);
 		
 	}
+	
+//	//첨부파일 DELETE
+//	@RequestMapping("/forum/notice/deleteAttach.do")
+//	@ResponseBody
+//	public int deleteAttach(@RequestParam("attachSeq") int attachSeq ) {
+//		
+//		return boardService.deleteAttach(attachSeq);
+//	}
 	
 }

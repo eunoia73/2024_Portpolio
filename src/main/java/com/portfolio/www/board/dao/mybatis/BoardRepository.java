@@ -24,6 +24,12 @@ public interface BoardRepository {
 	//write 
 	public int addBoard(HashMap<String, String> params);
 	
+	//update
+	public int updateBoard(@Param("boardSeq") int boardSeq, @Param("boardTypeSeq") int boardTypeSeq, @Param("title") String title, @Param("content") String content);
+	
+	//delete
+	public int deleteBoard(@Param("boardSeq") int boardSeq, @Param("boardTypeSeq") int boardTypeSeq);
+	
 	//좋아요 insert 
 	public int addBoardLike(BoardLikeDto likeDto);
 	
