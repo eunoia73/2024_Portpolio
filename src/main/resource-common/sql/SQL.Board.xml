@@ -19,9 +19,13 @@
     	   b.update_member_seq,
     	   m.member_id,
     	   (SELECT COUNT(*)
-			FROM board_attach ba 
-			WHERE ba.board_type_seq = b.board_type_seq 
-			AND ba.board_seq = b.board_seq)as "attachCnt"
+			  FROM board_attach ba 
+			 WHERE ba.board_type_seq = b.board_type_seq 
+			   AND ba.board_seq = b.board_seq)as "attachCnt",
+		   (SELECT COUNT(*)
+			  FROM board_comment bc 
+			 WHERE bc.board_seq = b.board_seq
+			   AND bc.board_type_seq = b.board_type_seq)as "commentCnt"
       FROM board b
       JOIN board_type bt ON bt.board_type_seq  = b.board_type_seq 
       JOIN member m ON m.member_seq  = b.reg_member_seq 

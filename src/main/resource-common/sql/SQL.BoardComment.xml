@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper
+	namespace="com.portfolio.www.board.dao.mybatis.BoardCommentRepository">
+
+	<!-- 댓글 추가 -->
+	<insert id="addComment" parameterType="BoardCommentDto">
+		INSERT INTO forum.board_comment
+		(lvl, content, board_seq, board_type_seq, member_seq, parent_comment_seq,
+		reg_dtm)
+		VALUES(#{lvl}, #{content}, #{boardSeq}, #{boardTypeSeq}, #{memberSeq},
+		<if test="parentCommentSeq == 0">null</if>
+		<if test="parentCommentSeq != 0">#{parentCommentSeq}</if>
+
+		, DATE_FORMAT(NOW(),'%Y%m%d%H%i%s'))
+
+	</insert>
+	
+	
+	<!-- 댓글 가져오기  -->
+	<select id="getComment" parameterType="int" resultType="BoardCommentDto">
+	SELECT a.*, m.member_nm
+	  FROM (
+	         SELECT p.comment_seq,
+			        p.parent_comment_seq,
+			        IFNULL(p.parent_comment_seq, s.parent_comment_seq) as parent_seq,
+			        p.lvl,
+					p.content,
+					p.board_seq,
+					p.board_type_seq,
+					p.member_seq,
+					p.reg_dtm
+	  		   FROM forum.board_comment p
+		  LEFT JOIN forum.board_comment s ON s.parent_comment_seq = p.comment_seq
+			)a
+	JOIN member m on a.member_seq = m.member_seq
+	WHERE a.board_seq = #{boardSeq} AND a.board_type_seq = #{boardTypeSeq}
+  ORDER BY IFNULL(parent_seq, 99999999),a.reg_dtm, a.comment_seq; 
+	
+	</select>
+
+
+	<!-- 댓글 개수 -->
+	<select id="getCommentCnt" parameterType="int">
+	SELECT COUNT(1)
+	FROM board_comment 
+	WHERE board_seq = #{boardSeq} AND board_type_seq = #{boardTypeSeq}
+	
+	</select>
+	
+	<!--댓글 수정  -->
+	<update id="updateComment" parameterType="int">
+	UPDATE forum.board_comment
+	SET lvl=#{lvl}, content=#{content}, board_seq=#{boardSeq}, board_type_seq=#{boardTypeSeq}, member_seq=#{memberSeq}, parent_comment_seq=#{parentCommentSeq}, update_dtm= DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s')
+	WHERE comment_seq=#{commentSeq};
+	</update>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="deleteComment" parameterType="int">
+	DELETE FROM forum.board_comment
+	 WHERE comment_seq=#{commentSeq};
+	</delete>
+
+</mapper>

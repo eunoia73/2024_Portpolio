@@ -35,12 +35,14 @@ String ctx = request.getContextPath();
 
 
 												<td>
-														<a
-															href="<c:url value='/forum/notice/readPage.do?boardSeq=${i.boardSeq }&boardTypeSeq=${i.boardTypeSeq }'/>">
+														<a href="<c:url value='/forum/notice/readPage.do?boardSeq=${i.boardSeq }&boardTypeSeq=${i.boardTypeSeq }'/>" style="color: black">
 															${i.title }</a>
 															
-												<!--첨부파일 여부  -->
-															 <c:if test="${i.attachCnt > 0}"><span class="lnr lnr-paperclip"></span></c:if>
+															<!--첨부파일 여부  -->
+															 <c:if test="${i.attachCnt > 0}"><span class="lnr lnr-paperclip" style="color:#0674ec"></span>${i.attachCnt}</c:if>
+															 <!-- 댓글 여부  -->
+															 <c:if test="${i.commentCnt > 0}" > &nbsp | &nbsp<span class="lnr lnr-bubble" style="color:#7347c1"></span>&nbsp${i.commentCnt}</c:if>
+															  
 												</td>
 
 
