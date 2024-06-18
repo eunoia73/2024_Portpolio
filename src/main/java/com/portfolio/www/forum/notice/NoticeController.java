@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.portfolio.www.board.dto.BoardAttachDto;
+import com.portfolio.www.forum.notice.service.BoardCommentService;
 import com.portfolio.www.forum.notice.service.BoardService;
 import com.portfolio.www.message.MessageEnum;
 
@@ -24,6 +25,9 @@ public class NoticeController {
 	@Autowired
 	private BoardService boardService;
 
+	@Autowired
+	private BoardCommentService commentService;
+	
 	@RequestMapping("/forum//notice/listPage.do")
 	public ModelAndView listPage(@RequestParam HashMap<String, String> params) {
 		ModelAndView mv = new ModelAndView();
@@ -83,9 +87,6 @@ public class NoticeController {
 			@RequestParam(value = "attFile", required = false) MultipartFile[] attFiles) {
 
 		System.out.println("controller===" + params);
-		System.out.println(attFiles[0]);
-		System.out.println(attFiles[1]);
-		System.out.println(attFiles[2]);
 
 		boolean result = boardService.write(params, attFiles);
 
@@ -120,24 +121,27 @@ public class NoticeController {
 			params.put("boardTypeSeq", "3");
 		}
 
-//		Integer boardSeq = Integer.parseInt(params.get("boardSeq"));
-//		Integer boardTypeSeq = Integer.parseInt(params.get("boardTypeSeq"));
+		Integer boardSeq = Integer.parseInt(params.get("boardSeq"));
+		Integer boardTypeSeq = Integer.parseInt(params.get("boardTypeSeq"));
 //		Integer memberSeq = Integer.parseInt(params.get("memberSeq"));
 
 		mv.addObject("board", boardService.getRead(params.get("boardSeq")));
 
 		// 첨부파일
-		mv.addObject("attFile", boardService.getAllAttFile(Integer.parseInt(params.get("boardSeq")),
-				Integer.parseInt(params.get("boardTypeSeq"))));
+		mv.addObject("attFile", boardService.getAllAttFile(boardSeq, boardTypeSeq));
 
 		// 좋아요
-		mv.addObject("liked", boardService.getLike(Integer.parseInt(params.get("boardSeq")),
-				Integer.parseInt(params.get("boardTypeSeq")), -1));
+		mv.addObject("liked", boardService.getLike(boardSeq, boardTypeSeq, -1));
 //		
 //		//싫어요 
-		mv.addObject("disLiked", boardService.getDisLike(Integer.parseInt(params.get("boardSeq")),
-				Integer.parseInt(params.get("boardTypeSeq")), -1));
+		mv.addObject("disLiked", boardService.getDisLike(boardSeq, boardTypeSeq, -1));
 
+		//댓글 
+		mv.addObject("comments", commentService.getComment(boardSeq, boardTypeSeq));
+		
+		//댓글 개수 
+		mv.addObject("commentCnt", commentService.getCommentCnt(boardSeq, boardTypeSeq));
+		
 		return mv;
 	}
 

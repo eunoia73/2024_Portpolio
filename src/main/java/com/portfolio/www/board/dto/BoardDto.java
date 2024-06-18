@@ -16,6 +16,16 @@ public class BoardDto {
 	private String regMemberId;
 	//첨부파일 개수 
 	private int attachCnt;
+	//댓글 개수 
+	private int commentCnt;
+
+	public int getCommentCnt() {
+		return commentCnt;
+	}
+
+	public void setCommentCnt(int commentCnt) {
+		this.commentCnt = commentCnt;
+	}
 
 	public int getAttachCnt() {
 		return attachCnt;

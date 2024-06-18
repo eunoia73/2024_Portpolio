@@ -38,7 +38,7 @@
 
 
 								<a href='<%=ctx%>/forum/download.do?attachSeq=${j.attachSeq}'>
-									${j.attachSeq} ${j.orgFileNm} (${j.fileSize}) </a>
+									<span class="lnr lnr-download"></span> ${j.orgFileNm} (${j.fileSize}) </a>
 
 								<!-- 파일 삭제 버튼  -->
 
