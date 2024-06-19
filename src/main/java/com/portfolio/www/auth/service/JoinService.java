@@ -20,27 +20,14 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 @Service
 public class JoinService {
 
-//
-//	public void setMemberRepository(MemberRepository memberRepository) {
-//		this.memberRepository = memberRepository;
-//	}
-
 	@Autowired
 	private MemberRepository memberRepository;
 
 	@Autowired
 	private MemberAuthRepository authRepository;
 
-//	public void setMemberAuthRepository(MemberAuthRepository authRepository) {
-//		this.authRepository = authRepository;
-//	}
-
 	@Autowired
 	private EmailUtil emailUtil;
-////
-//	public void setEmailUtil(EmailUtil emailUtil) {
-//		this.emailUtil = emailUtil;
-//	}
 
 	public MemberDto login(HashMap<String, String> params) throws EmptyResultDataAccessException {
 		// 사용자 찾기
@@ -145,14 +132,13 @@ public class JoinService {
 		emailUtil.sendMail(email, true);
 	}
 
-	
-	// 중복아이디 여부 확인하기 
+	// 중복아이디 여부 확인하기
 	public int existMemberId(HashMap<String, String> params) {
 		int memberCnt = memberRepository.existMemberId(params.get("memberId"));
 		return memberCnt;
 	}
 
-	// 메일 인증 
+	// 메일 인증
 	public boolean mailAuth(String uri) {
 
 		MemberAuthDto dto = authRepository.getMemberAuthDto(uri);
@@ -168,4 +154,56 @@ public class JoinService {
 
 		return result;
 	}
+
+	// 비밀번호 재설정하기
+	// 1. 사용자가 아이디와 이메일을 입력하면, db의 아이디와 이메일이 맞는지 확인한 후,
+	// 2. 인증메일을 보낸다.
+	// 3. 인증메일 링크를 통해 비밀번호 변경 페이지로
+	public int searchPasswd(String memberId, String email) {
+		// 1.db에서 비밀번호 있는지 확인
+		Integer memberSeq = memberRepository.searchMemberSeq(memberId, email);
+		// 일단 확인
+		System.out.println("======================memberSeq확인!" + memberSeq);
+		if (memberSeq != 0) {
+			// 2. 사용자의 메일로 인증메일 보내기
+
+			// 인증 메일 발송하기
+			EmailDto emailDto = new EmailDto();
+			emailDto.setForm("eunoia7373@naver.com"); // 보내는 사람
+			emailDto.setReceiver(email); // 받는 사람
+			emailDto.setSubject("비밀번호를 변경하세요."); // 제목
+
+			String html = "<a href='http://localhost:8080/pf/auth/changePwPage.do?memberSeq=" + memberSeq
+					+ "'>비밀번호 변경하기</a>";
+			emailDto.setText(html);
+
+			// 보내기
+			sendMail(emailDto);
+//							
+		}
+		return memberSeq;
+	}
+
+	// 비밀번호 변경하기
+	public int changePasswd(int memberSeq, String memberId, String passwd) {
+
+		String dbMemberId = memberRepository.getMemberId(memberSeq);
+
+		// db에서 가져온 아이디와 사용자가 입력한 아이디가 같으면 비밀번호 변경 허용
+		if (memberId.equals(dbMemberId)) {
+
+			// 새로운 비밀번호 암호화
+			String encPasswd = BCrypt.withDefaults().hashToString(12, passwd.toCharArray());
+			System.out.println("encPasswd >>>>>>>" + encPasswd);
+			BCrypt.Result result = BCrypt.verifyer().verify(passwd.toCharArray(), encPasswd);
+			System.out.println("result.verified >>>>>>> " + result.verified);
+
+			return memberRepository.changePw(memberId, encPasswd);
+
+		}else {
+			return -1;
+		}
+
+	}
+
 }
