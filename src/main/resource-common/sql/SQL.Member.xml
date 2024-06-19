@@ -35,8 +35,27 @@
 	FROM member 
 	WHERE member_id = #{memberId}
 	</select>
-
 	
+	<!-- memberId, email로 memberSeq찾기  -->
+	<select id="searchMemberSeq" parameterType="string" resultType="int">
+	SELECT member_seq 
+	FROM member
+	WHERE member_id = #{memberId}
+	AND email = #{email}
+	</select>
 	
+	<!-- password 변경하기  -->
+	<update id="changePw" parameterType="string">
+	UPDATE forum.`member`
+	   SET passwd=#{passwd}, pwd_chng_dtm=DATE_FORMAT(NOW(),'%Y%m%d%H%i%s')	
+	 WHERE member_id=#{memberId};
+	</update>
+	
+	<!-- memberSeq로 memberId 찾기  -->
+	<select id="getMemberId" parameterType="int" resultType="string">
+	SELECT member_id
+	  FROM member
+	 WHERE member_seq = #{memberSeq}
+	</select>
     
 </mapper>
