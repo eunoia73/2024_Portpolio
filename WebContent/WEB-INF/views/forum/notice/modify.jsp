@@ -6,7 +6,18 @@
 	href="<%=ctx%>/assest/template/css/trumbowyg.min.css">
 <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg.min.js"></script>
 <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg/ko.js"></script>
+<c:if test="${not empty code and not empty msg}">
+	<script type="text/javascript">
+            window.onload = function() {
+                var code = '${code}';
+                var msg = '${msg}';
 
+                if (code !== '') {
+                    alert(msg);
+                }
+            }
+        </script>
+</c:if>
 <!--================================
             START DASHBOARD AREA
     =================================-->
@@ -38,7 +49,9 @@
 
 
 								<a href='<%=ctx%>/forum/download.do?attachSeq=${j.attachSeq}'>
-									<span class="lnr lnr-download"></span> ${j.orgFileNm} (${j.fileSize}) </a>
+									<span class="lnr lnr-download"></span> ${j.orgFileNm}
+									(${j.fileSize})
+								</a>
 
 								<!-- 파일 삭제 버튼  -->
 
@@ -89,7 +102,7 @@
 		lang : 'kr'
 	});
 	
-	window.onload = function() {
+/* 	window.onload = function() {
 		var result = '${result}';
 		var msg = '${msg}';
 
@@ -97,7 +110,7 @@
 			alert(msg)
 			window.location.href = '/forum//notice/listPage.do';
 		}
-	};
+	}; */
 	
 	<%--  //첨부파일 삭제 
     function deleteFile(attachSeq){

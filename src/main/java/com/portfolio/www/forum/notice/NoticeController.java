@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.portfolio.www.board.dto.BoardAttachDto;
 import com.portfolio.www.forum.notice.service.BoardCommentService;
@@ -84,8 +87,12 @@ public class NoticeController {
 	// CREATE
 	@RequestMapping("/forum/notice/write.do")
 	public ModelAndView write(@RequestParam HashMap<String, String> params,
-			@RequestParam(value = "attFile", required = false) MultipartFile[] attFiles) {
+			@RequestParam(value = "attFile", required = false) MultipartFile[] attFiles,
+			HttpServletRequest request,
+			RedirectAttributes ra) {
 
+		System.out.println("controller===" + params);
+		params.put("memberSeq", request.getSession().getAttribute("memberSeq")+"");
 		System.out.println("controller===" + params);
 
 		boolean result = boardService.write(params, attFiles);
@@ -94,20 +101,21 @@ public class NoticeController {
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 		mv.addObject("result", result);
 		if (result) {
-			mv.addObject("code", MessageEnum.SUCCESS.getCode());
-			mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
+			ra.addFlashAttribute("code", MessageEnum.SUCCESS.getCode());
+			ra.addFlashAttribute("msg", MessageEnum.SUCCESS.getDescription());
+
 		} else {
-			mv.addObject("code", "9000");
-			mv.addObject("msg", "작성 실패");
+			ra.addFlashAttribute("code", MessageEnum.FAIL.getCode());
+			ra.addFlashAttribute("msg", MessageEnum.FAIL.getDescription());
 		}
-		mv.setViewName("forum/notice/list");
+		mv.setViewName("redirect:/forum//notice/listPage.do");
 
 		return mv;
 	}
 
 	// READ
 	@RequestMapping("/forum/notice/readPage.do")
-	public ModelAndView readPage(@RequestParam HashMap<String, String> params) {
+	public ModelAndView readPage(@RequestParam HashMap<String, String> params, HttpServletRequest request) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 		mv.setViewName("forum/notice/read");
@@ -123,7 +131,8 @@ public class NoticeController {
 
 		Integer boardSeq = Integer.parseInt(params.get("boardSeq"));
 		Integer boardTypeSeq = Integer.parseInt(params.get("boardTypeSeq"));
-//		Integer memberSeq = Integer.parseInt(params.get("memberSeq"));
+		//session에서 memberSeq 받아오기 
+		Integer memberSeq = (Integer) request.getSession().getAttribute("memberSeq");
 
 		mv.addObject("board", boardService.getRead(params.get("boardSeq")));
 
@@ -131,10 +140,10 @@ public class NoticeController {
 		mv.addObject("attFile", boardService.getAllAttFile(boardSeq, boardTypeSeq));
 
 		// 좋아요
-		mv.addObject("liked", boardService.getLike(boardSeq, boardTypeSeq, -1));
+		mv.addObject("liked", boardService.getLike(boardSeq, boardTypeSeq, memberSeq));
 //		
 //		//싫어요 
-		mv.addObject("disLiked", boardService.getDisLike(boardSeq, boardTypeSeq, -1));
+		mv.addObject("disLiked", boardService.getDisLike(boardSeq, boardTypeSeq, memberSeq));
 
 		//댓글 
 		mv.addObject("comments", commentService.getComment(boardSeq, boardTypeSeq));
@@ -180,7 +189,8 @@ public class NoticeController {
 	// UPDATE
 	@RequestMapping("/forum/notice/modify.do")
 	public ModelAndView modify(@RequestParam HashMap<String, String> params,
-			@RequestParam(value = "attFile", required = false) MultipartFile[] attFiles) {
+			@RequestParam(value = "attFile", required = false) MultipartFile[] attFiles,
+			RedirectAttributes ra) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 		Integer boardSeq = Integer.parseInt(params.get("boardSeq"));
@@ -192,13 +202,13 @@ public class NoticeController {
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 		mv.addObject("result", result);
 		if (result) {
-			mv.addObject("code", MessageEnum.SUCCESS.getCode());
-			mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
-		} else {
-			mv.addObject("code", "9000");
-			mv.addObject("msg", "작성 실패");
-		}
+			ra.addFlashAttribute("code", MessageEnum.SUCCESS.getCode());
+			ra.addFlashAttribute("msg", MessageEnum.SUCCESS.getDescription());
 
+		} else {
+			ra.addFlashAttribute("code", MessageEnum.FAIL.getCode());
+			ra.addFlashAttribute("msg", MessageEnum.FAIL.getDescription());
+		}
 		// board table update
 		boardService.modify(params);
 
@@ -223,22 +233,23 @@ public class NoticeController {
 	// 게시글& 첨부파일 DELETE
 	@RequestMapping("/forum/notice/deleteBoard.do")
 	public ModelAndView deleteBoardAndAttach(@RequestParam("boardSeq") int boardSeq,
-			@RequestParam("boardTypeSeq") int boardTypeSeq) {
+			@RequestParam("boardTypeSeq") int boardTypeSeq,
+			RedirectAttributes ra) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 
 		// board
 		int delete = boardService.deleteBoard(boardSeq, boardTypeSeq);
-		String result = "fail";
-		String msg = MessageEnum.FAIL.getDescription();
 		if (delete == 1) {
-//			mv.addObject("code", MessageEnum.SUCCESS.getCode());
-//			mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
-			result = "success";
-			msg = MessageEnum.SUCCESS.getDescription();
+			ra.addFlashAttribute("code", MessageEnum.SUCCESS.getCode());
+			ra.addFlashAttribute("msg", MessageEnum.SUCCESS.getDescription());
+
+		} else {
+			ra.addFlashAttribute("code", MessageEnum.FAIL.getCode());
+			ra.addFlashAttribute("msg", MessageEnum.FAIL.getDescription());
 		}
 
-		mv.setViewName("redirect:/forum/notice/listPage.do?result=" + result + "&msg=" + msg);
+		mv.setViewName("redirect:/forum/notice/listPage.do");
 		return mv;
 	}
 

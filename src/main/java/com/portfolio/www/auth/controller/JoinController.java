@@ -3,7 +3,9 @@ package com.portfolio.www.auth.controller;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,6 @@ public class JoinController {
 
 		System.out.println("========params" + params);
 
-		
 		int result = joinService.join(params);
 
 		// result가 "0000"이면 회원가입 성공!
@@ -66,9 +67,9 @@ public class JoinController {
 //			mv.setViewName("auth/join");
 //
 //		}
-		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
-		mv.addObject("code", MessageEnum.SUCCESS.getCode());
-		mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
+//		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
+//		mv.addObject("code", MessageEnum.SUCCESS.getCode());
+//		mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
 
 		mv.setViewName("auth/login");
 		return mv;
@@ -93,16 +94,44 @@ public class JoinController {
 
 	// 로그인
 	@RequestMapping("/login.do")
-	public ModelAndView login(HttpServletRequest request, @RequestParam HashMap<String, String> params) {
+	public ModelAndView login(HttpServletRequest request, HttpServletResponse response,
+			@RequestParam HashMap<String, String> params) {
 		ModelAndView mv = new ModelAndView();
 		MemberDto member = null;
+
+		// 체크박스 체크 여부
+		String rememberId = request.getParameter("rememberId");
+
 		try {
 			member = joinService.login(params);
 
 			if (!ObjectUtils.isEmpty(member)) {
-				// 세션처리 
+				// 세션처리
 				HttpSession session = request.getSession();
 				session.setAttribute("memberId", member.getMemberId());
+				session.setAttribute("memberSeq", member.getMemberSeq());
+				int memberSeq = (int) session.getAttribute("memberSeq");
+				System.out.println("=========session안에 있는memberSeq=======" + memberSeq);
+				System.out.println("=========params=========" + params);
+				System.out.println("=========request========" + request);
+				System.out.println("=========request" + request.getParameter("rememberId"));
+
+				// rememberMe 체크 되어 있으면(on이면) cookie 생성
+				if (rememberId != null) {
+
+					// 쿠키 생성
+					Cookie cookie = new Cookie("memberId", member.getMemberId());
+					response.addCookie(cookie);
+
+				} else {
+					// 2-3. checkbox 체크 안 했으면
+					// 2-4. 쿠키 삭제
+					Cookie cookie = new Cookie("memberId", member.getMemberId());
+					cookie.setMaxAge(0);
+					response.addCookie(cookie);
+
+				}
+
 				mv.setViewName("index");
 			} else {
 				mv.setViewName("login"); // 로그인 안 되면 다시 로그인 페이지로
@@ -123,10 +152,11 @@ public class JoinController {
 	@RequestMapping("/logout.do")
 	public ModelAndView logout(HttpServletRequest req) {
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("login");
 
 		// 세션 무효화
 		req.getSession().invalidate();
+		System.out.println("session========있나??"+req.getSession().getAttribute("memberId"));
+		mv.setViewName("/auth/login");
 
 		return mv;
 	}

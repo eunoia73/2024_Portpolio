@@ -23,25 +23,13 @@ public class BoardService {
 	@Autowired
 	private BoardRepository boardRepository;
 
-//	public BoardService() {}
-//
-//	public BoardService(BoardRepository boardRepository) {
-//		this.boardRepository = boardRepository;
-//	}
-//	
+
 	@Autowired
 	private BoardAttachRepository boardAttachRepository;
 
-//	public BoardService(BoardAttachRepository boardAttachRepository) {
-//		this.boardAttachRepository = boardAttachRepository;
-//	}
-//
 	@Autowired
 	private FileUtil fileUtil;
 
-//	public BoardService(FileUtil fileUtil) {
-//		this.fileUtil = fileUtil;
-//	}
 
 	///////////////// 게시글 좋아요 싫어요////////////////
 
@@ -147,7 +135,7 @@ public class BoardService {
 	}
 
 	// 글 작성
-	public boolean write(HashMap<String, String> params, MultipartFile[] mfs) {
+	public boolean write(HashMap<String, String> params, MultipartFile[] mfs ) {
 		// 첨부파일 DB에 저장
 		File destFile = null;
 

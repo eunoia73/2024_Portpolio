@@ -1,13 +1,27 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ page isELIgnored="false"%>
 <%
 String ctx = request.getContextPath();
 %>
+
 <link rel="stylesheet"
 	href="<%=ctx%>/assest/template/css/trumbowyg.min.css">
 <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg.min.js"></script>
 <script src="<%=ctx%>/assest/template/js/vendor/trumbowyg/ko.js"></script>
+<c:if test="${not empty code and not empty msg}">
+	<script type="text/javascript">
+            window.onload = function() {
+                var code = '${code}';
+                var msg = '${msg}';
+
+                if (code !== '') {
+                    alert(msg);
+                }
+            }
+        </script>
+</c:if>
 <!--================================
             START DASHBOARD AREA
     =================================-->
@@ -70,7 +84,7 @@ String ctx = request.getContextPath();
 
 						<!-- 게시글 삭제 버튼  -->
 						<a
-							href="<%=ctx %>/forum/notice/deleteComment.do?commentSeq=${comment.commentSeq} "
+							href="<%=ctx %>/forum/notice/deleteBoard.do?boardSeq=${board.boardSeq}&boardTypeSeq=${board.boardTypeSeq} "
 							onClick="return confirmDelete();" class="comment-reply-form">
 							<button class="btn btn--sm btn--round">삭제</button>
 						</a>
@@ -84,12 +98,12 @@ String ctx = request.getContextPath();
 
 					<div class="forum--replays cardify">
 						<div class="area_title">
-							<h4>${commentCnt }Replies</h4>
+							<h4>${commentCnt } Replies</h4>
 						</div>
 						<!-- end .area_title -->
 
 						<!-- 댓글  -->
-						<c:forEach items="${comments}"  var="comment" varStatus="status">
+						<c:forEach items="${comments}" var="comment" varStatus="status">
 
 							<div class="forum_single_reply">
 								<div class="reply_content">
@@ -105,13 +119,15 @@ String ctx = request.getContextPath();
 
 										<br>
 										<!-- 댓글 수정 | 삭제  -->
-										<a href="javascript:toggleBtn1" class="commentModify" id="modify${comment.commentSeq }"
-											style="color: #0674ec">수정</a> | <a href="" onClick="deleteComment(${comment.commentSeq})">삭제</a>
+										<a href="javascript:toggleBtn1" class="commentModify"
+											id="modify${comment.commentSeq }" style="color: #0674ec">수정</a>
+										| <a href="" onClick="deleteComment(${comment.commentSeq})">삭제</a>
 
 
-										
+
 										<!-- 수정버튼 누르면 나와야 함  -->
-										 <div class="comment-form-area" style="display: none" id="commentUpdateForm${comment.commentSeq}">
+										<div class="comment-form-area" style="display: none"
+											id="commentUpdateForm${comment.commentSeq}">
 											<h4>Leave a comment</h4>
 											<!-- comment reply -->
 											<div class="media comment-form support__comment">
@@ -130,7 +146,7 @@ String ctx = request.getContextPath();
 											</div>
 											<!-- comment reply -->
 										</div>
-										
+
 
 										<!-- 댓글 좋아요 싫어요  -->
 										<!-- <div class="vote">
