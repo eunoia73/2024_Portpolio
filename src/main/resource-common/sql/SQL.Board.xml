@@ -71,7 +71,7 @@
     SELECT LAST_INSERT_ID()
     </selectKey>
     INSERT INTO forum.board (board_type_seq, title, content, reg_dtm, reg_member_seq )
-    VALUES( '3', #{title}, #{trumbowyg-demo}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'), '51');
+    VALUES( '3', #{title}, #{trumbowyg-demo}, DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s'), #{memberSeq});
     </insert>
     
     

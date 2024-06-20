@@ -36,7 +36,7 @@ String ctx = request.getContextPath();
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="user_name">Username</label>
-                                    <input id="user_name" name="memberId" type="text" class="text_field" placeholder="Enter your username...">
+                                    <input id="user_name" name="memberId" type="text" class="text_field" value="${cookie.memberId.value}" placeholder="Enter your username...">
                                 </div>
 
                                 <div class="form-group">
@@ -46,7 +46,7 @@ String ctx = request.getContextPath();
 
                                 <div class="form-group">
                                     <div class="custom_checkbox">
-                                        <input type="checkbox" id="ch2">
+                                        <input type="checkbox" id="ch2" name="rememberId"  ${empty cookie.memberId.value? "":"checked"}>
                                         <label for="ch2">
                                             <span class="shadow_checkbox"></span>
                                             <span class="label_text">Remember me</span>
