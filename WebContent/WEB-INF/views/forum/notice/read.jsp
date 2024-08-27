@@ -74,7 +74,6 @@ String ctx = request.getContextPath();
 							<br>
 						</c:forEach>
 
-
 						<!-- 게시글 수정버튼  -->
 						<a
 							href="<%=ctx %>/forum/notice/modifyPage.do?boardSeq=${board.boardSeq}&boardTypeSeq=${board.boardTypeSeq} "
@@ -98,7 +97,7 @@ String ctx = request.getContextPath();
 
 					<div class="forum--replays cardify">
 						<div class="area_title">
-							<h4>${commentCnt } Replies</h4>
+							<h4>${commentCnt }Replies</h4>
 						</div>
 						<!-- end .area_title -->
 
@@ -117,35 +116,18 @@ String ctx = request.getContextPath();
 										</div>
 										<!-- end .pull-left -->
 
-										<br>
+										<br> <br> <br>
 										<!-- 댓글 수정 | 삭제  -->
-										<a href="javascript:toggleBtn1" class="commentModify"
-											id="modify${comment.commentSeq }" style="color: #0674ec">수정</a>
+										<%-- <a href="javascript:toggleBtn1" class="modifyButton"
+											id="modify${comment.commentSeq }" style="color: #0674ec">수정</a> --%>
+										<button class="modifyButton" onClick="showPanel(${comment.commentSeq})"
+											id="modify${comment.commentSeq }" style="color: #0674ec">수정</button>
 										| <a href="" onClick="deleteComment(${comment.commentSeq})">삭제</a>
 
 
 
 										<!-- 수정버튼 누르면 나와야 함  -->
-										<div class="comment-form-area" style="display: none"
-											id="commentUpdateForm${comment.commentSeq}">
-											<h4>Leave a comment</h4>
-											<!-- comment reply -->
-											<div class="media comment-form support__comment">
-												<div class="media-left">
-													<a href="#"> <img class="media-object"
-														src="<%=ctx%>/assest/template/images/m7.png"
-														alt="Commentator Avatar">
-													</a>
-												</div>
-												<div class="media-body">
-													<div id="trumbowyg-demo-modify">${comment.content }</div>
-													<button class="btn btn--sm btn--round"
-														onClick='addComment(${board.boardSeq}, ${board.boardTypeSeq })'>Post
-														Comment</button>
-												</div>
-											</div>
-											<!-- comment reply -->
-										</div>
+
 
 
 										<!-- 댓글 좋아요 싫어요  -->
@@ -161,10 +143,20 @@ String ctx = request.getContextPath();
 									<!-- end .vote -->
 									<p>${comment.content }</p>
 								</div>
+
+								<div class="panel" id="panel">
+									<input type="text" id="modifyComment" name=modifyComment 
+										value=${comment.content }>
+									<button type="button"
+										onClick="updateComment(${comment.commentSeq})">저장</button>
+								</div>
+
+
 								<!-- end .reply_content -->
 							</div>
 							<!-- end .forum_single_reply -->
 						</c:forEach>
+
 
 						<div class="comment-form-area">
 							<h4>Leave a comment</h4>
@@ -216,6 +208,27 @@ String ctx = request.getContextPath();
  */		}
 	};
 	
+	
+	
+	//수정버튼 누르면 수정 form 
+	var acc = document.getElementsByClassName("modifyButton");
+	var i;
+
+	for (i = 0; i < acc.length; i++) {
+ 	 acc[i].addEventListener("click", function() {
+  
+    this.classList.toggle("active");
+
+    /* Toggle between hiding and showing the active panel */
+     var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+   	 }
+  		});
+	} 
+	 
 	// delete 확인 메시지 
     function confirmDelete() {
         return confirm("정말로 삭제하시겠습니까?");
@@ -347,38 +360,17 @@ String ctx = request.getContextPath();
   		});
   	}
   
-  // 댓글 수정 창 보여주기 
-  
-/*  function modifyView(${comment.commentSeq}) {
-			var modifiId = document.getElementById(commentUpdateForm${comment.commentSeq });
-			modifiId.parentElement.parentElement.style.display = 'none';
-			modifiId.parentElement.parentElement.nextElementSibling.style.display = '';
 
-		} */
-		
-		function toggleBtn1() {
-
-			  // 토글 할 버튼 선택 (btn1)
-			  const btn1 = document.getElementById('commentUpdateForm');
-			  
-			  // btn1 숨기기 (display: none)
-			  if(btn1.style.display != 'none') {
-			    btn1.style.display = 'none';
-			  }
-
-			  // btn` 보이기 (display: block)
-			  else {
-			    btn1.style.display = 'block';
-			  }
-			}
   
   
   
-  <%-- 
- //댓글 수정  기능
+ //댓글 수정 기능
     
-    function updateComment(boardSeq, boardTypeSeq) {
-  		var url = '<%=ctx%>/forum/notice/reply.do';
+    function updateComment(commentSeq) {
+  		var url = '<%=ctx%>/forum/notice/modifyComment.do';
+  	    var content = $('#modifyComment').val();
+
+  		
   		$.ajax({        
   			type : 'POST',
   			url : url,
@@ -389,9 +381,8 @@ String ctx = request.getContextPath();
   			dataType : 'JSON',
   			data : JSON.stringify ({
   				//지정해서 보내기 html로 변환되어서 이동
-  				boardSeq : boardSeq,
-  				boardTypeSeq : boardTypeSeq,
-  				content: $('#trumbowyg-demo').trumbowyg('html')
+  				commentSeq : commentSeq,
+  				content: content
   			}),
   			success : function(result) {
   				if(result) {
@@ -406,7 +397,7 @@ String ctx = request.getContextPath();
   			}
   		});
   	}
-   --%>
+   
    
  //댓글 삭제 기능
    

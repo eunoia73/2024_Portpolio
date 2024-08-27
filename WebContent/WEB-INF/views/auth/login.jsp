@@ -36,12 +36,12 @@ String ctx = request.getContextPath();
                             <div class="login--form">
                                 <div class="form-group">
                                     <label for="user_name">Username</label>
-                                    <input id="user_name" name="memberId" type="text" class="text_field" value="${cookie.memberId.value}" placeholder="Enter your username...">
+                                    <input id="user_name" name="memberId" type="text" class="text_field" <%-- value="${cookie.memberId.value}" --%> value="aaa" placeholder="Enter your username...">
                                 </div>
 
                                 <div class="form-group">
                                     <label for="pass">Password</label>
-                                    <input id="pass" name="passwd" type="text" class="text_field" placeholder="Enter your password...">
+                                    <input id="pass" name="passwd" type="text" class="text_field" value="1111" placeholder="Enter your password...">
                                 </div>
 
                                 <div class="form-group">

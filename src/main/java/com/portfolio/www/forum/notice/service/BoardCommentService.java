@@ -35,9 +35,27 @@ public class BoardCommentService {
 		return commentRepository.getCommentCnt(boardSeq, boardTypeSeq);
 	}
 	
-	//댓글 삭제 
-	public int deleteComment(int commentseq) {
-		return commentRepository.deleteComment(commentseq);
+	//댓글 수정 
+	public int updateComment(int commentSeq, String content, int memberSeq) {
+		//댓글 작성자 확인 (db)
+		int commentMemberSeq = commentRepository.getMemberSeq(commentSeq);
+		
+		if(memberSeq == commentMemberSeq) {
+			return commentRepository.updateComment(commentSeq, content);
+
+		}else {
+			//댓글 작성자가 일치하지 않을 경우 
+			return -1;
+			
+		}
+		
 	}
+	
+	//댓글 삭제 
+	public int deleteComment(int commentSeq) {
+		return commentRepository.deleteComment(commentSeq);
+	}
+	
+	
 	
 }
