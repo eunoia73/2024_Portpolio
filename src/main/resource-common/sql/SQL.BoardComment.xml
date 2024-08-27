@@ -51,10 +51,10 @@
 	</select>
 	
 	<!--댓글 수정  -->
-	<update id="updateComment" parameterType="int">
+	<update id="updateComment" parameterType="BoardCommentDto">
 	UPDATE forum.board_comment
-	SET lvl=#{lvl}, content=#{content}, board_seq=#{boardSeq}, board_type_seq=#{boardTypeSeq}, member_seq=#{memberSeq}, parent_comment_seq=#{parentCommentSeq}, update_dtm= DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s')
-	WHERE comment_seq=#{commentSeq};
+	   SET content=#{content}, update_dtm= DATE_FORMAT(NOW()  ,'%Y%m%d%H%i%s')
+	 WHERE comment_seq=#{commentSeq};
 	</update>
 	
 	<!-- 댓글 삭제 -->
@@ -62,5 +62,13 @@
 	DELETE FROM forum.board_comment
 	 WHERE comment_seq=#{commentSeq};
 	</delete>
+	
+	<!-- 작성자 확인 -->
+	<select id="getMemberSeq" parameterType="int" resultType="int">
+	SELECT member_seq
+	  FROM board_comment
+	 WHERE comment_seq = #{commentSeq}
+	</select>
+	
 
 </mapper>

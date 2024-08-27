@@ -54,7 +54,7 @@ if (session.getAttribute("memberId") != null) {
 					<!-- start .author-area -->
 					<div class="author-area not_logged_in">
 						<div class="author__notification_area">
-							<ul>
+							<%-- <ul>
 								<li class="has_dropdown">
 									<div class="icon_wrap">
 										<span class="lnr lnr-cart"></span> <span
@@ -127,7 +127,7 @@ if (session.getAttribute("memberId") != null) {
 										</div>
 									</div>
 								</li>
-							</ul>
+							</ul> --%>
 						</div>
 						<div class="pull-right join desktop-size d-md-block d-none">
 							<a href="<c:url value='/auth/joinPage.do'/>"
@@ -185,15 +185,16 @@ if (session.getAttribute("memberId") != null) {
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
 								<li class="has_dropdown"><a href="index.html">HOME</a>
-									<div class="dropdowns dropdown--menu">
-										<ul>
+<!-- 									<div class="dropdowns dropdown--menu">
+ -->										<!-- <ul>
 											<li><a href="index.html">Home Multi Vendor</a></li>
 											<li><a href="index-single.html">Home Two Single User</a>
 											</li>
 											<li><a href="index3.html">Home Three Product</a></li>
-										</ul>
-									</div></li>
-								<li class="has_dropdown"><a href="all-products-list.html">all
+										</ul> -->
+<!-- 									</div>
+ -->									</li>
+								<!-- <li class="has_dropdown"><a href="all-products-list.html">all
 										product</a>
 									<div class="dropdowns dropdown--menu">
 										<ul>
@@ -203,8 +204,8 @@ if (session.getAttribute("memberId") != null) {
 											<li><a href="#">Follow Feed</a></li>
 											<li><a href="#">Top Authors</a></li>
 										</ul>
-									</div></li>
-								<li class="has_dropdown"><a href="#">categories</a>
+									</div></li> -->
+								<!-- <li class="has_dropdown"><a href="#">categories</a>
 									<div class="dropdowns dropdown--menu">
 										<ul>
 											<li><a href="category-grid.html">Popular Items</a></li>
@@ -219,8 +220,8 @@ if (session.getAttribute("memberId") != null) {
 											<li><a href="category-grid.html">Entertainment</a></li>
 											<li><a href="category-grid.html">Landing Pages</a></li>
 										</ul>
-									</div></li>
-								<li class="has_megamenu"><a href="#">Elements</a>
+									</div></li> -->
+								<!-- <li class="has_megamenu"><a href="#">Elements</a>
 									<div class="dropdown_megamenu contained">
 										<div class="megamnu_module">
 											<div class="menu_items">
@@ -263,7 +264,7 @@ if (session.getAttribute("memberId") != null) {
 												</div>
 											</div>
 										</div>
-									</div></li>
+									</div></li> -->
 
 								<li class="has_dropdown"><a href="">게시판</a>
 									<div class="dropdowns dropdown--menu">
@@ -271,16 +272,16 @@ if (session.getAttribute("memberId") != null) {
 											<li><a
 												href="<c:url value='/forum//notice/listPage.do'/>">공지사항</a>
 											</li>
-											<li><a href="all-products.html">Popular Items</a></li>
+											<!-- <li><a href="all-products.html">Popular Items</a></li>
 											<li><a href="index3.html">Free Templates</a></li>
 											<li><a href="#">Follow Feed</a></li>
-											<li><a href="#">Top Authors</a></li>
+											<li><a href="#">Top Authors</a></li> -->
 										</ul>
 									</div></li>
 
-								<li><a
+							<%-- 	<li><a
 									href="<c:url value='/forum//notice/contactPage.do'/>">contact</a>
-								</li>
+								</li> --%>
 							</ul>
 						</div>
 						<!-- /.navbar-collapse -->

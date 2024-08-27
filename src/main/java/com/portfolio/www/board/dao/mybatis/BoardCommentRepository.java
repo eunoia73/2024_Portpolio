@@ -21,9 +21,12 @@ public interface BoardCommentRepository {
 	public int getCommentCnt(@Param("boardSeq")int boardSeq, @Param("boardTypeSeq")int boardTypeSeq);
 	
 	//댓글 수정 
-	public int updateComment(@Param("commentSeq")int commentSeq, BoardCommentDto commentDto);
+	public int updateComment(@Param("commentSeq")int commentSeq, @Param("content")String content);
 	
 	//댓글 삭제 
 	public int deleteComment(@Param("commentSeq")int commentSeq);
+	
+	//commentSeq로 memberSeq 불러오기 
+	public int getMemberSeq(@Param("commentSeq") int commentSeq);
 	
 }
