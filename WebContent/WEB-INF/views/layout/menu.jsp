@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- ================================
 	    START MENU AREA
@@ -184,7 +185,7 @@ if (session.getAttribute("memberId") != null) {
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
-								<li class="has_dropdown"><a href="index.html">HOME</a>
+								<li class="has_dropdown"><a href="<c:url value='/index.do'/>">HOME</a>
 <!-- 									<div class="dropdowns dropdown--menu">
  -->										<!-- <ul>
 											<li><a href="index.html">Home Multi Vendor</a></li>

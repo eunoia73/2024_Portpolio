@@ -63,6 +63,7 @@ public class LoginFilter extends HttpFilter implements Filter {
 		HttpServletResponse resp = (HttpServletResponse) response;
 		
 		String uri = req.getRequestURI();
+		System.out.println("======filter======");
 		System.out.println("==========URI"+uri);
 		// pass the request along the filter chain
 		
@@ -71,7 +72,7 @@ public class LoginFilter extends HttpFilter implements Filter {
 		if(Arrays.asList(LOGIN_REQUIRED_URI).contains(uri.replace("/pf", ""))) {
 			HttpSession session = req.getSession();
 			if(ObjectUtils.isEmpty(session.getAttribute("memberId"))){
-				resp.sendRedirect(req.getContextPath()+"/auth/loginPage.do");
+				resp.sendRedirect(req.getContextPath()+"/auth/loginPage.do?redirectURL="+uri.replace("/pf",""));
 				return;
 			}
 		}

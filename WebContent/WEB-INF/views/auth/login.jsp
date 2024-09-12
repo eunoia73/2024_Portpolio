@@ -3,6 +3,11 @@
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 <%
 String ctx = request.getContextPath();
+String query = request.getParameter("redirectURL");
+//hidden으로 숨겨온 값 null값 처리하기 
+if(query==null||query.equals("")){
+	query="index.do";
+}
 %>
     <script type="text/javascript">
 <%--     window.onload=function(){
@@ -16,6 +21,7 @@ String ctx = request.getContextPath();
     }; --%>
     
     </script>
+    
    
    
     <!--================================
@@ -28,6 +34,9 @@ String ctx = request.getContextPath();
                     <form action="<%= ctx %>/login.do" method="post">
                         <div class="cardify login">
                             <div class="login--header">
+                           <!-- board에서 받아온 url을 보내야함.
+								form태그와 함께 넘어가야한다.   -->
+								<input class="redirectURL" name="redirectURL" value=<%=query%> ><br><br>      
                                 <h3>Welcome Back</h3>
                                 <p>You can sign in with your username</p>
                             </div>
