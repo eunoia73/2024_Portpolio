@@ -6,10 +6,10 @@
 
   
     <!-- 회원가입하기  -->
-    <insert id = "join" parameterType="java.util.HashMap">
-    <selectKey resultType="String" keyProperty="memberSeq" keyColumn="member_seq" order="AFTER" >
+    <insert id = "join" parameterType="MemberDto">
+<!--     <selectKey resultType="String" keyProperty="memberSeq" keyColumn="member_seq" order="AFTER" >
     SELECT LAST_INSERT_ID()
-    </selectKey>
+    </selectKey> -->
     INSERT INTO forum.member (member_id, passwd, member_nm, email, auth_yn, pwd_chng_dtm, join_dtm )
     VALUES(#{memberId}, #{passwd}, #{memberNm}, #{email}, 'N', DATE_FORMAT(NOW(),'%Y%m%d%H%i%s'), DATE_FORMAT(NOW(),'%Y%m%d%H%i%s'));
     </insert>

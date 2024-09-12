@@ -12,7 +12,7 @@ import com.portfolio.www.auth.dto.MemberDto;
 public interface MemberRepository {
 
 	// 회원가입
-	public int join(HashMap<String, String> params);
+	public int join(MemberDto member);
 
 	// 중복아이디 여부
 	public int existMemberId(String memberId);

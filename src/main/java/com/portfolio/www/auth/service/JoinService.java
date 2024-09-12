@@ -52,18 +52,18 @@ public class JoinService {
 	}
 
 	// 회원가입
-	public int join(HashMap<String, String> params) {
+	public int join(MemberDto member) {
 
-		System.out.println("service========" + params);
+		System.out.println("service========" + member.getPasswd());
 
 		// 비밀번호 암호화
-		String passwd = params.get("passwd");
+		String passwd = member.getPasswd();
 		String encPasswd = BCrypt.withDefaults().hashToString(12, passwd.toCharArray());
 		System.out.println("encPasswd >>>>>>>" + encPasswd);
 		BCrypt.Result result = BCrypt.verifyer().verify(passwd.toCharArray(), encPasswd);
 		System.out.println("result.verified >>>>>>> " + result.verified);
 
-		params.put("passwd", encPasswd);
+		member.setPasswd(encPasswd);
 
 		// 회원가입 검증하기
 		// 아이디 중복 체크
@@ -83,15 +83,15 @@ public class JoinService {
 //
 
 		// 중복아이디 여부 확인하기
-		int memberCnt = existMemberId(params);
+		int memberCnt = existMemberId(member.getMemberId());
 
 		int cnt = -1;
 		if (memberCnt != 1) {
-			// membertable에 insert
-			cnt = memberRepository.join(params);
+			// member table에 insert
+			cnt = memberRepository.join(member);
 		}
 
-		int memberSeq = memberRepository.getMemberSeq(params.get("memberId"));
+		int memberSeq = memberRepository.getMemberSeq(member.getMemberId());
 
 		// member table에 join 되었다면, 인증메일 보내기
 		if (cnt == 1) {
@@ -110,7 +110,7 @@ public class JoinService {
 			// 인증 메일 발송하기
 			EmailDto email = new EmailDto();
 			email.setForm("eunoia7373@naver.com"); // 보내는 사람
-			email.setReceiver(params.get("email")); // 받는 사람
+			email.setReceiver(member.getEmail()); // 받는 사람
 			email.setSubject("인증하세요"); // 제목
 
 			String html = "<a href='http://localhost:8080/pf/emailAuth.do?uri=" + authDto.getAuthUri() + "'>인증하기</a>";
@@ -133,8 +133,8 @@ public class JoinService {
 	}
 
 	// 중복아이디 여부 확인하기
-	public int existMemberId(HashMap<String, String> params) {
-		int memberCnt = memberRepository.existMemberId(params.get("memberId"));
+	public int existMemberId(String memberId) {
+		int memberCnt = memberRepository.existMemberId(memberId);
 		return memberCnt;
 	}
 

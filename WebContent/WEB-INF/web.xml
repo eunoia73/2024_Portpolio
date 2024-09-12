@@ -43,11 +43,25 @@
 		<servlet-name>pf</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
+	
+	<error-page>
+		<error-code>400</error-code>
+		<location>/WEB-INF/views/errors/400.jsp</location> 
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/errors/404.jsp</location> 
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/errors/500.jsp</location> 
+	</error-page>
 
 	<!-- Spring servlet start <servlet> <servlet-name>pf-rest</servlet-name> 
 		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class> 
 		<load-on-startup>2</load-on-startup> </servlet> <servlet-mapping> <servlet-name>pf-rest</servlet-name> 
 		<url-pattern>*.rest</url-pattern> </servlet-mapping> -->
+	
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>

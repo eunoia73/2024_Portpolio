@@ -12,9 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.service.JoinService;
@@ -35,13 +40,38 @@ public class JoinController {
 		return mv;
 	}
 
+	
 	@RequestMapping("/auth/join.do")
-	public ModelAndView join(@RequestParam HashMap<String, String> params) {
+	public ModelAndView join(@ModelAttribute MemberDto member, BindingResult bindingResult,
+			RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView();
 
-		System.out.println("========params" + params);
+		// memberId 공백이면 예외 발생
+		if (!StringUtils.hasText(member.getMemberId()) || (member.getMemberId().length() < 7)) {
+//			bindingResult.addError(new FieldError("memberError", "memberId", member.getMemberId(), false, null, null,
+//					MessageEnum.VERIFY_ID_LENGTH.getDescription()));
+			mv.addObject("code", MessageEnum.VERIFY_ID_LENGTH.getCode());
+			mv.addObject("msg", MessageEnum.VERIFY_ID_LENGTH.getDescription());
+		}
 
-		int result = joinService.join(params);
+		System.out.println("========modelAttribute" + member);
+		System.out.println(member.getMemberId());
+		System.out.println(member.getPasswd());
+		System.out.println(member.getMemberNm());
+		System.out.println(member.getEmail());
+
+		// 에러가 있으면 다시 회원가입 입력 폼으로 이동
+		if (bindingResult.hasErrors()) {
+
+			System.out.println("bindingError" + bindingResult);
+			System.out.println("bindingError/n" + bindingResult.getFieldError());
+			mv.setViewName("auth/join");
+		}
+
+		// 성공로직
+		int result = joinService.join(member);
+		redirectAttributes.addAttribute("code", MessageEnum.SUCCESS.getCode());
+		redirectAttributes.addAttribute("msg", MessageEnum.SUCCESS.getDescription());
 
 		// result가 "0000"이면 회원가입 성공!
 //		if (result == MessageEnum.SUCCESS.getCode()) {
@@ -71,7 +101,7 @@ public class JoinController {
 //		mv.addObject("code", MessageEnum.SUCCESS.getCode());
 //		mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
 
-		mv.setViewName("auth/login");
+//		mv.setViewName("auth/login");
 		return mv;
 	}
 
@@ -92,73 +122,5 @@ public class JoinController {
 		return mv;
 	}
 
-	// 로그인
-	@RequestMapping("/login.do")
-	public ModelAndView login(HttpServletRequest request, HttpServletResponse response,
-			@RequestParam HashMap<String, String> params) {
-		ModelAndView mv = new ModelAndView();
-		MemberDto member = null;
-
-		// 체크박스 체크 여부
-		String rememberId = request.getParameter("rememberId");
-
-		try {
-			member = joinService.login(params);
-
-			if (!ObjectUtils.isEmpty(member)) {
-				// 세션처리
-				HttpSession session = request.getSession();
-				session.setAttribute("memberId", member.getMemberId());
-				session.setAttribute("memberSeq", member.getMemberSeq());
-				int memberSeq = (int) session.getAttribute("memberSeq");
-				System.out.println("=========session안에 있는memberSeq=======" + memberSeq);
-				System.out.println("=========params=========" + params);
-				System.out.println("=========request========" + request);
-				System.out.println("=========request" + request.getParameter("rememberId"));
-
-				// rememberMe 체크 되어 있으면(on이면) cookie 생성
-				if (rememberId != null) {
-
-					// 쿠키 생성
-					Cookie cookie = new Cookie("memberId", member.getMemberId());
-					response.addCookie(cookie);
-
-				} else {
-					// 2-3. checkbox 체크 안 했으면
-					// 2-4. 쿠키 삭제
-					Cookie cookie = new Cookie("memberId", member.getMemberId());
-					cookie.setMaxAge(0);
-					response.addCookie(cookie);
-
-				}
-
-				mv.setViewName("index");
-			} else {
-				mv.setViewName("login"); // 로그인 안 되면 다시 로그인 페이지로
-				mv.addObject("code", MessageEnum.PASSWD_NOT_EQUAL.getCode());
-				mv.addObject("msg", MessageEnum.PASSWD_NOT_EQUAL.getDescription());
-			}
-		} catch (EmptyResultDataAccessException e) { // 사용자 없을
-			// 여기에 Exception넣는게 가장 무책임한 코드.. 예외를 식별하는게 좋다!
-			mv.setViewName("login"); // 로그인 안 되면 다시 로그인 페이지로
-			mv.addObject("code", MessageEnum.USER_NOT_FOUND.getCode());
-			mv.addObject("msg", MessageEnum.USER_NOT_FOUND.getDescription());
-		}
-
-		return mv;
-	}
-
-	// 로그아웃
-	@RequestMapping("/logout.do")
-	public ModelAndView logout(HttpServletRequest req) {
-		ModelAndView mv = new ModelAndView();
-
-		// 세션 무효화
-		req.getSession().invalidate();
-		System.out.println("session========있나??"+req.getSession().getAttribute("memberId"));
-		mv.setViewName("/auth/login");
-
-		return mv;
-	}
-
+	
 }
