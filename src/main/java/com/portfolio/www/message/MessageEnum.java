@@ -9,12 +9,18 @@ public enum MessageEnum {
 	INCORRECT_ID_PW("0121", "입력하신 아이디와 비밀번호를 확인할 수 없습니다. 아이디와 비밀번호를 다시 입력해주세요."),
 	USER_NOT_FOUND("0202", "존재하지 않는 사용자 입니다."),
 	INVALID_ID_OR_PASSWORD("0203", "아이디 또는 비밀번호가 일치하지 않습니다. 다시 입력해 주세요."),
-	PASSWD_NOT_EQUAL("9001","비밀번호가 맞지 않습니다."),
 	FAIL("9999","실패했습니다."),
 
+	VERIFY_ID_SUCCESS("9000","사용할 수 있는 아이디입니다."),
+	VERIFY_ID_LENGTH("9001", "아이디는 6~12자리여야 합니다."),
+	VERIFY_ID_ENG_OR_NM("9002","아이디는 영어 또는 숫자만 가능합니다."),
 	
-	VERIFY_ID_LENGTH("9001", "아이디는 7자리 이상이어야 합니다."),
-	VERIFY_EMAIL_FORM("9002", "이메일 형식에 맞게 입력해주세요.")
+	VERIFY_EMAIL_SUCCESS("9010","사용할 수 있는 이메일입니다."),
+	VERIFY_EMAIL_FORM("9011", "이메일 형식에 맞게 입력해주세요."),
+	
+	VERIFY_PW_FORM("9021","6자리 이상, 영문, 숫자, 특수문자를 사용하세요."),
+	PASSWD_NOT_EQUAL("9022","비밀번호가 일치하지 않습니다.")
+
 	;
 	
 	MessageEnum(String code, String description){
@@ -34,6 +40,8 @@ public enum MessageEnum {
 	}
 	//enum은 setter 필요 없음
 	//객체생성할 필요도 없음!
+	
+	
 	
 	
 }

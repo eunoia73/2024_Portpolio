@@ -36,20 +36,20 @@ if(query==null||query.equals("")){
                             <div class="login--header">
                            <!-- board에서 받아온 url을 보내야함.
 								form태그와 함께 넘어가야한다.   -->
-								<input class="redirectURL" name="redirectURL" value=<%=query%> ><br><br>      
-                                <h3>Welcome Back</h3>
-                                <p>You can sign in with your username</p>
+								<input type="hidden" class="redirectURL" name="redirectURL" value=<%=query%> ><br><br>      
+                                <h3>환영합니다</h3>
+                                <p></p>
                             </div>
                             <!-- end .login_header -->
 
                             <div class="login--form">
                                 <div class="form-group">
-                                    <label for="user_name">Username</label>
+                                    <label for="user_name">아이디</label>
                                     <input id="user_name" name="memberId" type="text" class="text_field" <%-- value="${cookie.memberId.value}" --%> value="aaa" placeholder="Enter your username...">
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="pass">Password</label>
+                                    <label for="pass">비밀번호</label>
                                     <input id="pass" name="passwd" type="text" class="text_field" value="1111" placeholder="Enter your password...">
                                 </div>
 
@@ -58,19 +58,19 @@ if(query==null||query.equals("")){
                                         <input type="checkbox" id="ch2" name="rememberId"  ${empty cookie.memberId.value? "":"checked"}>
                                         <label for="ch2">
                                             <span class="shadow_checkbox"></span>
-                                            <span class="label_text">Remember me</span>
+                                            <span class="label_text">아이디 저장</span>
                                         </label>
                                     </div>
                                 </div>
 
-                                <button class="btn btn--md btn--round" type="submit">Login Now</button>
+                                <button class="btn btn--md btn--round" type="submit">로그인</button>
 
                                 <div class="login_assist">
-                                    <p class="recover">Lost your
-                                        <a href="pass-recovery.html">username</a> or
-                                        <a href="<c:url value='/auth/recoverPage.do'/>">password</a>?</p>
-                                    <p class="signup">Don't have an
-                                        <a href="<c:url value='/auth/joinPage.do'/>">account</a>?</p>
+                                    <p class="recover">잊어버리셨나요?
+                                        <a href="pass-recovery.html">아이디</a> or
+                                        <a href="<c:url value='/auth/recoverPage.do'/>">비밀번호</a>?</p>
+                                    <p class="signup">계정이 없으신가요?
+                                        <a href="<c:url value='/auth/joinPage.do'/>">회원가입</a>?</p>
                                 </div>
                             </div>
                             <!-- end .login--form -->

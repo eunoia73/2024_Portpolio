@@ -26,10 +26,7 @@ String ctx = request.getContextPath();
 				<form action="<%=ctx%>/auth/searchPw.do" method="post">
 					<div class="cardify recover_pass">
 						<div class="login--header">
-							<p>Please enter the email address for your account. A
-								verification code will be sent to you. Once you have received
-								the verification code, you will be able to choose a new password
-								for your account.</p>
+							<p>아이디와 이메일을 입력하시면 <br>비밀번호를 변경할 수 있는 링크를 보내드립니다.</p>
 						</div>
 						<!-- end .login_header -->
 
@@ -38,9 +35,9 @@ String ctx = request.getContextPath();
 
 						<div class="login--form">
 							<div class="form-group">
-								<label for="email_ad">Your Id</label> <input id="id_ad"
+								<label for="email_ad">아이디</label> <input id="id_ad"
 									name="memberId" type="text" class="text_field"
-									placeholder="Enter your id">
+									placeholder="아이디를 입력하세요.">
 							</div>
 						</div>
 						<!-- end .login--form -->
@@ -48,13 +45,12 @@ String ctx = request.getContextPath();
 
 						<div class="login--form">
 							<div class="form-group">
-								<label for="email_ad">Email Address</label> <input id="email_ad"
+								<label for="email_ad">이메일</label> <input id="email_ad"
 									name="email" type="text" class="text_field"
-									placeholder="Enter your email address">
+									placeholder="이메일을 입력하세요.">
 							</div>
 
-							<button class="btn btn--md btn--round register_btn" type="submit">Register
-								Now</button>
+							<button class="btn btn--md btn--round register_btn" type="submit">등록하기</button>
 						</div>
 						<!-- end .login--form -->
 					</div>
