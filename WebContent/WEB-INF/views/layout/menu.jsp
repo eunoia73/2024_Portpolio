@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
+
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!-- ================================
 	    START MENU AREA
@@ -10,11 +10,11 @@
 String loginout; //버튼 이름 변수
 
 if (session.getAttribute("memberId") != null) {
-	loginout = "Logout";
+	loginout = "로그아웃";
 
 } else {
 	//2. 로그인 안 되어있으면 버튼은 login
-	loginout = "Login";
+	loginout = "로그인";
 }
 %>
 <%-- <%
@@ -132,22 +132,22 @@ if (session.getAttribute("memberId") != null) {
 						</div>
 						<div class="pull-right join desktop-size d-md-block d-none">
 							<a href="<c:url value='/auth/joinPage.do'/>"
-								class="btn btn--round btn-secondary  btn--xs">Join Now</a>
+								class="btn btn--round btn-secondary  btn--xs">회원가입</a>
 
 							<!-- session에 memberId 있으면 로그아웃  -->
 							<c:choose>
 								<c:when test="${not empty sessionScope.memberId}">
 									<a href="<c:url value='/logout.do'/>"
-										class="btn btn--round btn--xs">logout</a>
+										class="btn btn--round btn--xs">로그아웃</a>
 
 								</c:when>
 								<c:otherwise>
 									<a href="<c:url value='/auth/loginPage.do'/>"
-										class="btn btn--round btn--xs">login</a>
+										class="btn btn--round btn--xs">로그인</a>
 
 								</c:otherwise>
 							</c:choose>
-							
+
 
 
 						</div>
@@ -185,16 +185,15 @@ if (session.getAttribute("memberId") != null) {
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="navbarNav">
 							<ul class="navbar-nav">
-								<li class="has_dropdown"><a href="<c:url value='/index.do'/>">HOME</a>
-<!-- 									<div class="dropdowns dropdown--menu">
- -->										<!-- <ul>
+								<li class="has_dropdown"><a
+									href="<c:url value='/index.do'/>">HOME</a> <!-- 									<div class="dropdowns dropdown--menu">
+ --> <!-- <ul>
 											<li><a href="index.html">Home Multi Vendor</a></li>
 											<li><a href="index-single.html">Home Two Single User</a>
 											</li>
 											<li><a href="index3.html">Home Three Product</a></li>
-										</ul> -->
-<!-- 									</div>
- -->									</li>
+										</ul> --> <!-- 									</div>
+ --></li>
 								<!-- <li class="has_dropdown"><a href="all-products-list.html">all
 										product</a>
 									<div class="dropdowns dropdown--menu">
@@ -280,9 +279,9 @@ if (session.getAttribute("memberId") != null) {
 										</ul>
 									</div></li>
 
-							<%-- 	<li><a
-									href="<c:url value='/forum//notice/contactPage.do'/>">contact</a>
-								</li> --%>
+								 	<li><a
+									href="<c:url value='/forum//notice/contactPage.do'/>">Contact Me</a>
+								</li> 
 							</ul>
 						</div>
 						<!-- /.navbar-collapse -->
