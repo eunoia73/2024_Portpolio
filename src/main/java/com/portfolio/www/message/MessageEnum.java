@@ -2,7 +2,7 @@ package com.portfolio.www.message;
 
 public enum MessageEnum {
 
-	SUCCESS("0000","Request Success"),
+	SUCCESS("0000","성공적으로 처리되었습니다."),
 	EXISTS_LOGIN_NM("0101", "이미 사용중인 아이디입니다. 다른 아이디를 사용해주세요."),
 	FAIL_SEND_EMAIL("0110", "이메일 발송에 실패하였습니다."),
 	EXISTS_EMAIL_ADDR("0114", "이미 사용중인 이메일입니다. 다른 이메일을 사용해주세요."),
@@ -19,7 +19,11 @@ public enum MessageEnum {
 	VERIFY_EMAIL_FORM("9011", "이메일 형식에 맞게 입력해주세요."),
 	
 	VERIFY_PW_FORM("9021","6자리 이상, 영문, 숫자, 특수문자를 사용하세요."),
-	PASSWD_NOT_EQUAL("9022","비밀번호가 일치하지 않습니다.")
+	PASSWD_NOT_EQUAL("9022","비밀번호가 일치하지 않습니다."),
+	
+	VERIFY_NAME_LENGTH("9031","이름은 2~12자리여야 합니다."),
+	
+	VERIFY_EMPTY("9998","빈칸일 수 없습니다.")
 
 	;
 	

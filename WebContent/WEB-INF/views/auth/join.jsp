@@ -37,7 +37,7 @@ String ctx = request.getContextPath();
 			<div class="col-lg-6 offset-lg-3">
 
 
-				<form action="/pf/auth/join.do">
+				<form action="<%=ctx%>/auth/join.do">
 					<div class="cardify signup_form">
 						<div class="login--header">
 							<h3>회원가입</h3>
@@ -405,14 +405,31 @@ function idCheck(){
 		var nameChecked = document.querySelector('.nameChecked');
 		var pwChecked = document.querySelector('.pwChecked');
 		
+		console.log(idChecked.value);
+		console.log(emailChecked.value);
+		console.log(nameChecked.value);
+		console.log(pwChecked.value);
 		if(idChecked.value == 1 && emailChecked.value == 1
-				&& nameChecked == 1 && pwChecked.value == 1){
+				&& nameChecked.value == 1 && pwChecked.value == 1){
+			
+			alert("회원가입을 완료하기 위해 이메일 인증을 해주세요.");
 			return true;
 		}else {
 			alert("회원가입에 실패했습니다.");
 			return false;
 		}
 	}
+	
+	//
+	window.onload=function(){
+		var code = '${code}';
+		var msg = '${msg}';
+		
+		if(code!=''&& code!= '<%= MessageEnum.SUCCESS.getCode()%>'){  //정상처리 - 0000 
+			alert(msg)
+			/* window.location.href='/05/loginPage.do'; */
+		}
+	}; 
 	
 	
 </script>

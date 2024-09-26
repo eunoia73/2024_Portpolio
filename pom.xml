@@ -217,11 +217,7 @@
 		</dependency>
 
 
-		<dependency>
-			<groupId>10_board_01</groupId>
-			<artifactId>10_board_01</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+	
 	</dependencies>
 
 	<profiles>
