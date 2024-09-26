@@ -10,6 +10,7 @@
 	<typeAliases>
 		<package name="com.portfolio.www.auth.dto" />
 		<package name="com.portfolio.www.board.dto" />
+		<package name="com.portfolio.www.contact.dto" />
 
 	</typeAliases>
 

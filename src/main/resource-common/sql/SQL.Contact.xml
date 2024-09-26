@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.portfolio.www.contact.dao.mybatis.ContactRepository">
+
+<!-- contactinfo insert하기  -->
+	<insert id = "addContactInfo" parameterType = "ContactDto" >
+	INSERT INTO forum.contact (contact_name, contact_email, reg_dtm)
+	VALUES(#{contactName}, #{contactEmail}, DATE_FORMAT(NOW(),'%Y%m%d%H%i%s'));
+	</insert>
+
+
+</mapper>

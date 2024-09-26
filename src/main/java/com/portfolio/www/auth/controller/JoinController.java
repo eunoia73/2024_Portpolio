@@ -47,8 +47,8 @@ public class JoinController {
 			RedirectAttributes redirectAttributes) {
 		ModelAndView mv = new ModelAndView();
 
-		// memberId 공백이면 예외 발생
-		if (!StringUtils.hasText(member.getMemberId()) || (member.getMemberId().length() < 7)) {
+		// memberId 공백이거나 6~12 아니면 예외 발생
+		if (!StringUtils.hasText(member.getMemberId()) || (member.getMemberId().length() < 6) || (member.getMemberId().length() > 12)) {
 			bindingResult.addError(new FieldError("memberError", "memberId", member.getMemberId(), false, null, null,
 					MessageEnum.VERIFY_ID_LENGTH.getDescription()));
 			mv.addObject("code", MessageEnum.VERIFY_ID_LENGTH.getCode());
@@ -104,7 +104,7 @@ public class JoinController {
 //		mv.addObject("code", MessageEnum.SUCCESS.getCode());
 //		mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
 
-//		mv.setViewName("auth/login");
+		mv.setViewName("auth/login");
 		
 //		mv.addObject("idCheck", joinService.existMemberId(member.getMemberId()));
 		return mv;

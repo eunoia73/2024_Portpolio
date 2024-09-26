@@ -6,6 +6,16 @@ public class EmailDto {
 	private String receiver;
 	private String text;
 	private String subject;
+	private String attachment;
+	
+	public String getAttachment() {
+		return attachment;
+	}
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+	
+	
 	public String getForm() {
 		return form;
 	}

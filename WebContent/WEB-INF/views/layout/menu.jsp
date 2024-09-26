@@ -144,7 +144,6 @@ if (session.getAttribute("memberId") != null) {
 								<c:otherwise>
 									<a href="<c:url value='/auth/loginPage.do'/>"
 										class="btn btn--round btn--xs">로그인</a>
-
 								</c:otherwise>
 							</c:choose>
 
@@ -193,7 +192,7 @@ if (session.getAttribute("memberId") != null) {
 											</li>
 											<li><a href="index3.html">Home Three Product</a></li>
 										</ul> --> <!-- 									</div>
- --></li>
+ --><!-- </li> -->
 								<!-- <li class="has_dropdown"><a href="all-products-list.html">all
 										product</a>
 									<div class="dropdowns dropdown--menu">
@@ -280,7 +279,7 @@ if (session.getAttribute("memberId") != null) {
 									</div></li>
 
 								 	<li><a
-									href="<c:url value='/forum//notice/contactPage.do'/>">Contact Me</a>
+									href="<c:url value='/contact/contactPage.do'/>">Contact Me</a>
 								</li> 
 							</ul>
 						</div>
