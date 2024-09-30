@@ -23,44 +23,44 @@
                         <form action = "/pf/forum/notice/write.do" method ="POST" enctype="multipart/form-data" >
                             <div class="form-group">
                                 <label>제목</label>
-                                <input type="text" name="title" placeholder="Enter title here" required>
+                                <input type="text" name="title" placeholder="제목을 입력해주세요." required>
                             </div>
                             <div class="form-group">
-                                <label>Description</label>
+                                <label>내용</label>
                                 <div id="trumbowyg-demo"></div>
                             </div>
                             <div class="form-group">
                                 <div class="attachments">
-                                    <label>Attachments</label>
+                                    <label>첨부파일</label>
                                     <label>
-                                        <span class="lnr lnr-paperclip"></span> Add File
-                                        <span>or Drop Files Here</span>
+                                        <span class="lnr lnr-paperclip"></span> 파일을 선택해주세요.
+                                        <span></span>
                                         <input type="file" name = "attFile" style="display:inline-block;">
                                     </label>
                                 </div>
                                 
                                 <div class="attachments">
-                                    <label>Attachments</label>
+                                    <label>첨부파일</label>
                                     <label>
-                                        <span class="lnr lnr-paperclip"></span> Add File
-                                        <span>or Drop Files Here</span>
+                                        <span class="lnr lnr-paperclip"></span> 파일을 선택해주세요.
+                                        <span></span>
                                         <input type="file" name = "attFile" style="display:inline-block;">
                                     </label>
                                 </div>
                                 
                                 <div class="attachments">
-                                    <label>Attachments</label>
+                                    <label>첨부파일</label>
                                     <label>
-                                        <span class="lnr lnr-paperclip"></span> Add File
-                                        <span>or Drop Files Here</span>
+                                        <span class="lnr lnr-paperclip"></span> 파일을 선택해주세요.
+                                        <span></span>
                                         <input type="file" name = "attFile" style="display:inline-block;">
                                     </label>
                                 </div>  
                                 
                             </div>
                             <div class="form-group">
-                                <button class="btn btn--md btn-primary" type="submit"> Submit Request</button>
-                            	<a href="<c:url value='/forum/notice/listPage.do'/>" class="btn btn--md btn-light">Cancel</a>
+                                <button class="btn btn--md btn-primary" type="submit"> 저장하기</button>
+                            	<a href="<c:url value='/forum/notice/listPage.do'/>" class="btn btn--md btn-light">취소하기</a>
                             </div>
                         </form>
                     </div><!-- ends: .question-form -->

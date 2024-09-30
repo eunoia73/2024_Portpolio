@@ -34,7 +34,7 @@
 								value=${board.title } required>
 						</div>
 						<div class="form-group">
-							<label>Description</label>
+							<label>내용</label>
 							<div id="trumbowyg-demo">${board.content }</div>
 						</div>
 
@@ -69,9 +69,8 @@
 							<c:forEach begin="1" end="${count }">
 
 								<div class="attachments">
-									<label>Attachments</label> <label> <span
-										class="lnr lnr-paperclip"></span> Add File <span>or
-											Drop Files Here</span> <input type="file" name="attFile"
+									<label>첨부파일</label> <label> <span
+										class="lnr lnr-paperclip"></span> 파일을 선택해주세요. <span></span> <input type="file" name="attFile"
 										style="display: inline-block;">
 									</label>
 								</div>
@@ -80,9 +79,9 @@
 				</div>
 				<div class="form-group">
 					<button class="btn btn--md btn-primary" type="submit">
-						Submit Request</button>
+					 저장하기</button>
 					<a href="<c:url value='/forum/notice/listPage.do'/>"
-						class="btn btn--md btn-light">Cancel</a>
+						class="btn btn--md btn-light">취소하기</a>
 				</div>
 				</form>
 			</div>

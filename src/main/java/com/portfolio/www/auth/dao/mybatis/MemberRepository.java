@@ -21,7 +21,7 @@ public interface MemberRepository {
 	public int getMemberSeq(String memberId);
 	
 	//memberId로 memberDto
-	public MemberDto getMember(String memberId);
+	public MemberDto getMemberByMemberId(String memberId);
 
 	//비밀번호 찾기 
 	public int searchMemberSeq(@Param("memberId")String memberId, @Param("email")String email);
@@ -31,4 +31,7 @@ public interface MemberRepository {
 	
 	//memberSeq로 memberId 찾기 
 	public String getMemberId(@Param("memberSeq") int memberSeq);
+	
+	//memberSeq로 memberDto 
+	public MemberDto getMemberByMemberSeq(int memberSeq);
 }

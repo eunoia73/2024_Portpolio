@@ -53,9 +53,12 @@ String ctx = request.getContextPath();
 						</div>
 						<!-- end .title_vote -->
 						<div class="suppot_query_tag">
-							<img class="poster_avatar"
+							<%-- <img class="poster_avatar"
 								src="<%=ctx%>/assest/template/images/support_avat1.png"
-								alt="Support Avatar"> ${board.regMemberId } <span>${board.regDtm }</span>
+								alt="Support Avatar">  --%>
+								
+								${board.regMemberId }
+								<span>${board.regDtm }</span>
 						</div>
 						<p style="margin-bottom: 0; margin-top: 19px;">
 							${board.content }</p>
@@ -74,6 +77,8 @@ String ctx = request.getContextPath();
 							<br>
 						</c:forEach>
 
+						<!-- 로그인된 계정과 비교해서 자신이 쓴 게시물만 수정, 삭제 버튼 나와야 한다! -->
+						<c:if test="${board.regMemberSeq eq member.memberSeq}">
 						<!-- 게시글 수정버튼  -->
 						<a
 							href="<%=ctx %>/forum/notice/modifyPage.do?boardSeq=${board.boardSeq}&boardTypeSeq=${board.boardTypeSeq} "
@@ -88,7 +93,7 @@ String ctx = request.getContextPath();
 							<button class="btn btn--sm btn--round">삭제</button>
 						</a>
 
-
+						</c:if>
 					</div>
 					<!-- end .forum_issue -->
 
@@ -97,7 +102,7 @@ String ctx = request.getContextPath();
 
 					<div class="forum--replays cardify">
 						<div class="area_title">
-							<h4>${commentCnt }Replies</h4>
+							<h4>${commentCnt }개의 댓글</h4>
 						</div>
 						<!-- end .area_title -->
 
@@ -109,26 +114,31 @@ String ctx = request.getContextPath();
 									<div class="name_vote">
 										<div class="pull-left">
 											<h4>
-												${comment.memberNm}
+												<div id="comment_content">${comment.content }</div>
+
 												<!-- <span>staff</span> -->
 											</h4>
-											<p>${comment.regDtm}</p>
+											<p>${comment.memberNm}${comment.regDtm}</p>
 										</div>
 										<!-- end .pull-left -->
 
-										<br> <br> <br>
+
+									<!-- 로그인 계정 비교해서 자신이 작성한 댓글만 수정, 삭제 버튼 나와야한다 -->
 										<!-- 댓글 수정 | 삭제  -->
-										<%-- <a href="javascript:toggleBtn1" class="modifyButton"
-											id="modify${comment.commentSeq }" style="color: #0674ec">수정</a> --%>
-										<button class="modifyButton" onClick="showPanel(${comment.commentSeq})"
-											id="modify${comment.commentSeq }" style="color: #0674ec">수정</button>
-										| <a href="" onClick="deleteComment(${comment.commentSeq})">삭제</a>
+
+										<c:if test="${comment.memberSeq eq member.memberSeq}">
+											<div style="position: absolute; right: 30px;">
+												<button class="modifyButton btn btn--sm btn--round"
+													onClick="showPanel(${comment.commentSeq}, '${comment.content}')"
+													id="modify${comment.commentSeq }">수정</button>
+												| <a href="" class="btn btn--sm btn--round"
+													onClick="deleteComment(${comment.commentSeq})">삭제</a>
+											</div>
 
 
-
-										<!-- 수정버튼 누르면 나와야 함  -->
-
-
+											<!-- 수정버튼 누르면 수정 폼이 나온다.  -->
+											<div id="showModify${comment.commentSeq}"></div>
+										</c:if>
 
 										<!-- 댓글 좋아요 싫어요  -->
 										<!-- <div class="vote">
@@ -141,14 +151,7 @@ String ctx = request.getContextPath();
 
 									</div>
 									<!-- end .vote -->
-									<p>${comment.content }</p>
-								</div>
 
-								<div class="panel" id="panel">
-									<input type="text" id="modifyComment" name=modifyComment 
-										value=${comment.content }>
-									<button type="button"
-										onClick="updateComment(${comment.commentSeq})">저장</button>
 								</div>
 
 
@@ -159,20 +162,20 @@ String ctx = request.getContextPath();
 
 
 						<div class="comment-form-area">
-							<h4>Leave a comment</h4>
+							<h4>댓글 남기기</h4>
 							<!-- comment reply -->
 							<div class="media comment-form support__comment">
 								<div class="media-left">
-									<a href="#"> <img class="media-object"
+									<a href="#"> 
+									<%-- <img class="media-object"
 										src="<%=ctx%>/assest/template/images/m7.png"
-										alt="Commentator Avatar">
+										alt="Commentator Avatar"> --%>
 									</a>
 								</div>
 								<div class="media-body">
 									<div id="trumbowyg-demo"></div>
 									<button class="btn btn--sm btn--round"
-										onClick='addComment(${board.boardSeq}, ${board.boardTypeSeq })'>Post
-										Comment</button>
+										onClick='addComment(${board.boardSeq}, ${board.boardTypeSeq })'>저장하기</button>
 								</div>
 							</div>
 							<!-- comment reply -->
@@ -210,25 +213,7 @@ String ctx = request.getContextPath();
 	
 	
 	
-	//수정버튼 누르면 수정 form 
-	var acc = document.getElementsByClassName("modifyButton");
-	var i;
-
-	for (i = 0; i < acc.length; i++) {
- 	 acc[i].addEventListener("click", function() {
-  
-    this.classList.toggle("active");
-
-    /* Toggle between hiding and showing the active panel */
-     var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-   	 }
-  		});
-	} 
-	 
+	
 	// delete 확인 메시지 
     function confirmDelete() {
         return confirm("정말로 삭제하시겠습니까?");
@@ -363,12 +348,29 @@ String ctx = request.getContextPath();
 
   
   
+  //수정 폼 
+ function showPanel(commentSeq, content){
+	  var showModifyForm = document.getElementById('showModify'+commentSeq);
+	  console.log(commentSeq);
+	  console.log(content);
+	  //수정 폼 생성 
+	  showModifyForm.innerHTML = '<br><textarea id="modifyComment'+commentSeq+'"  style="width :275%;"></textarea><button class="btn btn--sm btn--round" onClick="updateComment('+commentSeq+')">저장하기</button>';
+	
+	  //기존에 쓰여진 댓글 안 보이게하기 
+	  var comment = document.getElementById('comment_content');
+	  /* comment.innerHTML = ''; */
+	  
+	  //textarea의 value로 
+	  var modifyComment = document.getElementById('modifyComment'+commentSeq);
+	  modifyComment.value = content;
+  }
+  
   
  //댓글 수정 기능
     
     function updateComment(commentSeq) {
   		var url = '<%=ctx%>/forum/notice/modifyComment.do';
-  	    var content = $('#modifyComment').val();
+  	    var content = $("#modifyComment"+commentSeq).val();
 
   		
   		$.ajax({        
@@ -387,6 +389,7 @@ String ctx = request.getContextPath();
   			success : function(result) {
   				if(result) {
   					window.location.reload();
+  					alert('수정되었습니다.');
   				}
   				else {
   	  			alert('실패!');
