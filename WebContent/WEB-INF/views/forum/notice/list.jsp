@@ -32,11 +32,11 @@ String ctx = request.getContextPath();
 								<table class="table withdraw__table">
 									<thead>
 										<tr>
-											<th>No</th>
+											<th>번호</th>
 
 											<th>제목</th>
 
-											<th>Date</th>
+											<th>날짜</th>
 											<th>작성자</th>
 										</tr>
 									</thead>

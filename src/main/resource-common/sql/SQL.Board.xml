@@ -18,6 +18,9 @@
     	   b.update_dtm , 
     	   b.update_member_seq,
     	   m.member_id,
+    	   (SELECT m.member_nm
+			  FROM member m
+			 WHERE b.reg_member_seq = m.member_seq)as "regMemberId",
     	   (SELECT COUNT(*)
 			  FROM board_attach ba 
 			 WHERE ba.board_type_seq = b.board_type_seq 
@@ -56,7 +59,10 @@
     	   b.reg_member_seq ,
     	   b.update_dtm ,
     	   b.update_member_seq, 
-    	   m.member_id
+    	   m.member_id,
+    	   (SELECT m.member_nm
+			FROM member m
+			WHERE b.reg_member_seq = m.member_seq)as "regMemberId"
       FROM board b 
       JOIN board_type bt ON bt.board_type_seq  = b.board_type_seq
       JOIN member m ON m.member_seq  = b.reg_member_seq

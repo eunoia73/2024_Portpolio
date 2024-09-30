@@ -27,16 +27,16 @@ String ctx = request.getContextPath();
 				<form action="<%= ctx %>/auth/changePw.do?memberSeq=${memberSeq}" method="post">
 					<div class="cardify recover_pass">
 						<div class="login--header">
-							<p>Please enter new password for your account. </p>
+							<p>새로운 비밀번호를 입력해주세요. </p>
 						</div>
 						<!-- end .login_header -->
 
 						<div class="login--form">
 							<div class="form-group">
-								<label for="email_ad">Your Id</label>
+								<label for="email_ad">아이디</label>
 								 <input id="id_ad" name="memberId"
 									type="text" class="text_field"
-									placeholder="Enter your id">
+									placeholder="아이디를 입력해주세요.">
 							</div>
 						</div>
 						<!-- end .login--form -->
@@ -44,14 +44,13 @@ String ctx = request.getContextPath();
 
 						<div class="login--form">
 							<div class="form-group">
-								<label for="email_ad">new password</label> 
+								<label for="email_ad">새로운 비밀번호</label> 
 								<input id="email_ad" name="passwd"
 									type="text" class="text_field"
-									placeholder="Enter your new password">
+									placeholder="새로운 비밀번호를 입력해주세요.">
 							</div>
 
-							<button class="btn btn--md btn--round register_btn" type="submit">Register
-								Now</button>
+							<button class="btn btn--md btn--round register_btn" type="submit">등록하기</button>
 						</div>
 						<!-- end .login--form -->
 					</div>

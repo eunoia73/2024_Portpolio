@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.portfolio.www.auth.service.LoginService;
 import com.portfolio.www.board.dto.BoardAttachDto;
 import com.portfolio.www.forum.notice.service.BoardCommentService;
 import com.portfolio.www.forum.notice.service.BoardService;
@@ -27,6 +28,9 @@ public class NoticeController {
 
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private LoginService loginService;
 
 	@Autowired
 	private BoardCommentService commentService;
@@ -91,9 +95,9 @@ public class NoticeController {
 			HttpServletRequest request,
 			RedirectAttributes ra) {
 
-		System.out.println("controller===" + params);
+		System.out.println("write controller===" + params);
 		params.put("memberSeq", request.getSession().getAttribute("memberSeq")+"");
-		System.out.println("controller===" + params);
+		System.out.println("write controller===" + params);
 
 		boolean result = boardService.write(params, attFiles);
 
@@ -129,10 +133,14 @@ public class NoticeController {
 			params.put("boardTypeSeq", "3");
 		}
 
+		
 		Integer boardSeq = Integer.parseInt(params.get("boardSeq"));
 		Integer boardTypeSeq = Integer.parseInt(params.get("boardTypeSeq"));
 		//session에서 memberSeq 받아오기 
 		Integer memberSeq = (Integer) request.getSession().getAttribute("memberSeq");
+		
+		//session에서 받은 memberSeq로 로그인 한 member 정보 받아오기
+		mv.addObject("member", loginService.getMemberByMemberSeq(memberSeq));
 
 		mv.addObject("board", boardService.getRead(params.get("boardSeq")));
 

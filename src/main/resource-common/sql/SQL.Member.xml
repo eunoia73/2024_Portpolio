@@ -29,8 +29,8 @@
 	WHERE member_id = #{memberId}
 	</select>
 	
-	<!--  -->
-	<select id="getMember" parameterType="string" resultType="memberDto">
+	<!-- memberId로 memberDto -->
+	<select id="getMemberByMemberId" parameterType="string" resultType="memberDto">
 	SELECT * 
 	FROM member 
 	WHERE member_id = #{memberId}
@@ -57,5 +57,12 @@
 	  FROM member
 	 WHERE member_seq = #{memberSeq}
 	</select>
-    
+	
+    <!-- memberSeq로 memberDto  -->
+    <select id="getMemberByMemberSeq" parameterType="int" resultType="memberDto">
+	SELECT * 
+	FROM member 
+	WHERE member_seq = #{memberSeq}
+	</select>
+	
 </mapper>

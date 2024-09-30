@@ -18,6 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.service.JoinService;
+import com.portfolio.www.auth.service.LoginService;
 import com.portfolio.www.message.MessageEnum;
 
 @Controller
@@ -25,6 +26,10 @@ public class LoginController {
 
 	@Autowired
 	private JoinService joinService;
+	
+	@Autowired
+	private LoginService loginService;
+	
 
 	@RequestMapping("/auth/loginPage.do")
 	public ModelAndView loginPage(@RequestParam HashMap<String, String> params) {
@@ -46,7 +51,7 @@ public class LoginController {
 		String rememberId = request.getParameter("rememberId");
 
 		try {
-			member = joinService.login(params);
+			member = loginService.login(params);
 
 			if (!ObjectUtils.isEmpty(member)) {
 				// 세션처리
@@ -123,7 +128,7 @@ public class LoginController {
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 
 		System.out.println(params);
-		joinService.searchPasswd(params.get("memberId"), params.get("email"));
+		loginService.searchPasswd(params.get("memberId"), params.get("email"));
 
 		mv.setViewName("auth/login");
 
@@ -153,7 +158,7 @@ public class LoginController {
 
 		System.out.println("==============memberSeq++++++++++" + memberSeq);
 		System.out.println("비번 변경===============" + params);
-		int result = joinService.changePasswd(memberSeq, params.get("memberId"), params.get("passwd"));
+		int result = loginService.changePasswd(memberSeq, params.get("memberId"), params.get("passwd"));
 
 		if (result == 1) {
 //			mv.addObject("code", MessageEnum.SUCCESS.getCode());
