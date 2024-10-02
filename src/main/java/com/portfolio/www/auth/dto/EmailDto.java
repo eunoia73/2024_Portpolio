@@ -2,7 +2,7 @@ package com.portfolio.www.auth.dto;
 
 public class EmailDto {
 
-	private String form;
+	private String from;
 	private String receiver;
 	private String text;
 	private String subject;
@@ -16,11 +16,11 @@ public class EmailDto {
 	}
 	
 	
-	public String getForm() {
-		return form;
+	public String getFrom() {
+		return from;
 	}
-	public void setForm(String form) {
-		this.form = form;
+	public void setFrom(String from) {
+		this.from = from;
 	}
 	public String getReceiver() {
 		return receiver;

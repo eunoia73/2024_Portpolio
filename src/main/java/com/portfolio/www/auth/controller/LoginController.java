@@ -15,6 +15,7 @@ import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.portfolio.www.auth.dto.MemberDto;
 import com.portfolio.www.auth.service.JoinService;
@@ -123,13 +124,17 @@ public class LoginController {
 
 	// memberSeq 찾기, 비밀번호 변경 위한 인증메일 보내기
 	@RequestMapping("/auth/searchPw.do")
-	public ModelAndView searchPw(@RequestParam HashMap<String, String> params) {
+	public ModelAndView searchPw(@RequestParam HashMap<String, String> params, RedirectAttributes ra) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
-
+		
+		//성공로직 
 		System.out.println(params);
 		loginService.searchPasswd(params.get("memberId"), params.get("email"));
-
+		
+		ra.addAttribute("code", MessageEnum.SUCCESS.getCode());
+		ra.addAttribute("code", MessageEnum.SUCCESS.getDescription());
+		
 		mv.setViewName("auth/login");
 
 		return mv;
@@ -162,15 +167,13 @@ public class LoginController {
 
 		if (result == 1) {
 //			mv.addObject("code", MessageEnum.SUCCESS.getCode());
-			mv.addObject("code", "0000");
-			mv.addObject("msg", "성공");
+			mv.addObject("code", MessageEnum.SUCCESS.getCode());
+			mv.addObject("msg", MessageEnum.SUCCESS.getDescription());
 			mv.setViewName("auth/login");
 
 		} else {
 			mv.addObject("code", MessageEnum.FAIL.getCode());
 			mv.addObject("msg", MessageEnum.FAIL.getDescription());
-//			mv.addObject("code", "9999");
-//			mv.addObject("msg", "실패..");
 			mv.setViewName("redirect:/auth/changePwPage.do?memberSeq=" + memberSeq);
 		}
 

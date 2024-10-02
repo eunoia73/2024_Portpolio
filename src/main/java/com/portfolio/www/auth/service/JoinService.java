@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -29,7 +30,9 @@ public class JoinService {
 	@Autowired
 	private EmailUtil emailUtil;
 
-	
+	// 저장 경로
+	@Value("#{config['mail.domain.path']}")
+	private String MAIL_PATH;
 
 	// 회원가입
 	public int join(MemberDto member) {
@@ -89,11 +92,14 @@ public class JoinService {
 
 			// 인증 메일 발송하기
 			EmailDto email = new EmailDto();
-			email.setForm("eunoia7373@naver.com"); // 보내는 사람
+			email.setFrom("eunoia7373@naver.com"); // 보내는 사람
 			email.setReceiver(member.getEmail()); // 받는 사람
 			email.setSubject("인증하세요"); // 제목
 
-			String html = "<a href='http://localhost:8080/pf/emailAuth.do?uri=" + authDto.getAuthUri() + "'>인증하기</a>";
+			// String html = "<a
+			// href='http://ec2-43-201-70-82.ap-northeast-2.compute.amazonaws.com:8080/pf/emailAuth.do?uri="
+			// + authDto.getAuthUri() + "'>인증하기</a>";
+			String html = "<a href='" + MAIL_PATH + "/pf/emailAuth.do?uri=" + authDto.getAuthUri() + "'>인증하기</a>";
 			email.setText(html);
 
 			// 보내기
@@ -135,5 +141,4 @@ public class JoinService {
 		return result;
 	}
 
-	
 }

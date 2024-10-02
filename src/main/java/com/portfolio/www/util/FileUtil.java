@@ -14,10 +14,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class FileUtil {
 
 	// 저장 경로
-//	@Value("#{config['file.save.path']}")
-//	private String SAVE_PATH;
+	@Value("#{config['file.save.path']}")
+	private String SAVE_PATH;
 
-	private String SAVE_PATH = "/Users/sookyung/Dev/tmp/";
+	//private String SAVE_PATH = "/Users/sookyung/Dev/tmp/";
 
 	public File saveFile(MultipartFile mf) {
 

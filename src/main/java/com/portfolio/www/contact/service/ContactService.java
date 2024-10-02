@@ -33,7 +33,7 @@ public class ContactService {
 
 		// 메일 구조 만들어서 보내기
 		EmailDto email = new EmailDto();
-		email.setForm("soo97703@naver.com"); // 보내는 사람
+		email.setFrom("eunoia7373@naver.com"); // 보내는 사람
 		email.setReceiver(contactDto.getContactEmail()); // 받는 사람
 		email.setSubject("엄수경 이력서"); // 제목
 		email.setAttachment("sookyung_resume.pdf");
