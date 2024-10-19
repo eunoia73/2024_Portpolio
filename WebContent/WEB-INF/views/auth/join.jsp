@@ -98,7 +98,7 @@ String ctx = request.getContextPath();
 									name="passwd" type="text" class="text_field"
 									placeholder="비밀번호를 입력해주세요." required>
 							</div>
-							<div class="strongPassword-message hide" style="color: red">8글자 이상, 영문, 숫자,
+							<div class="strongPassword-message hide" style="color: red">8~20자리, 영문, 숫자,
 								특수문자(@$!%*#?&)를 사용하세요.</div>
 
 							<br>
@@ -347,9 +347,9 @@ function idCheck(){
 	var pwChecked = document.querySelector('.pwChecked');
 
 
-	//아이디 형식 체크 
+	//비밀번호 형식 체크 
 	function strongPassword(str) {
-		return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
+		return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/
 				.test(str);
 	}
 	//비밀번호 확인 일치 체크 
