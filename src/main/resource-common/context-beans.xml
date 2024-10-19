@@ -21,7 +21,7 @@
 
 	<!-- 공용 설정 파일 -->
 	<util:properties id="config"
-		location="classpath:*config.ini" />
+		location="classpath:*config.properties" />
 
 	<!-- Annotation 기반의 Component Scan 필터(service package 만 검색) -->
 	<context:component-scan
@@ -62,7 +62,8 @@
 	<!-- 작업지시서가 있는 패키지 위치를 잡아줘야 사용 할 수 있다 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage"
-			value="com.portfolio.www.auth.dao.mybatis, com.portfolio.www.board.dao.mybatis" />
+			value="com.portfolio.www.auth.dao.mybatis, com.portfolio.www.board.dao.mybatis,
+			 com.portfolio.www.contact.dao.mybatis" />
 	</bean>
 
 	<!-- 트랜잭션 관리를 위한 bean -->
@@ -78,8 +79,8 @@
 		class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.naver.com" />
 		<property name="port" value="587" />
-		<property name="username" value="" />
-		<property name="password" value="" />
+		<property name="username" value="eunoia7373@naver.com" />
+		<property name="password" value="kyung95419!" />
 		<property name="javaMailProperties">
 			<props>
 				<prop key="mail.smtp.starttls.enable">true</prop>

@@ -36,17 +36,25 @@ if (query == null || query.equals("")) {
 
 						<div class="login--form">
 							<div class="form-group">
-								<label for="user_name">아이디</label> <input id="user_name"
+								<label for="user_name">아이디</label> 
+								<input id="user_id"
 									name="memberId" type="text" class="text_field"
-									<%-- value="${cookie.memberId.value}" --%> value="aaa"
-									placeholder="Enter your username...">
+									<%-- value="${cookie.memberId.value}" --%> value="aaaaaa"
+									placeholder="아이디를 입력해주세요." required>
 							</div>
+							<div id="id_result"></div>
+							<input id="idChecked" value="0" hidden>
+							<br>
+
 
 							<div class="form-group">
-								<label for="pass">비밀번호</label> <input id="pass" name="passwd"
-									type="text" class="text_field" value="1111"
-									placeholder="Enter your password...">
+								<label for="pass">비밀번호</label> <input id="passwd" name="passwd"
+									type="text" class="text_field" value="aaaaaa1!"
+									placeholder="비밀번호를 입력해주세요." required>
+								<div id="pw_result"></div>
+								<input id="pwChecked" value="0" hidden>
 							</div>
+							<div id="pw_result"></div>
 
 							<div class="form-group">
 								<div class="custom_checkbox">
@@ -58,12 +66,14 @@ if (query == null || query.equals("")) {
 								</div>
 							</div>
 
-							<button class="btn btn--md btn--round" type="submit">로그인</button>
+							<button class="btn btn--md btn--round" type="submit"
+								onclick="return validateForm()">로그인</button>
 
 							<div class="login_assist">
 								<p class="recover">
-									잊어버리셨나요? <a href="pass-recovery.html">아이디</a> or <a
-										href="<c:url value='/auth/recoverPage.do'/>">비밀번호</a>?
+									잊어버리셨나요?
+									<!-- <a href="pass-recovery.html">아이디</a> or  -->
+									<a href="<c:url value='/auth/recoverPage.do'/>">비밀번호</a>?
 								</p>
 								<p class="signup">
 									계정이 없으신가요? <a href="<c:url value='/auth/joinPage.do'/>">회원가입</a>?
@@ -84,16 +94,95 @@ if (query == null || query.equals("")) {
 
 
 <script type="text/javascript">
-/*    window.onload=function(){
+<%-- /*    window.onload=function(){
  */    	var code = '${code}';
     	var msg = '${msg}';
     	
-    	if(code!=''&& code!= '<%=MessageEnum.SUCCESS.getCode()%>') { //정상처리 - 0000 
-			alert(msg)
-			window.location.href = '/pf/auth/loginPage.do';
+    	if(code!=''&& code!= '<%=MessageEnum.SUCCESS.getCode()%>
+	') { //정상처리 - 0000 
+		alert(msg)
+		window.location.href = '/pf/auth/loginPage.do';
+	}
+	/* 	};
+	 */ --%>
+
+	/* 아이디 확인 */
+	// 1. 아이디 입력창 정보 가져오기
+	let userId = document.querySelector('#user_id');
+	var idResultDiv = document.getElementById('id_result');
+	var idChecked = document.querySelector('#idChecked');
+
+	// 2. 아이디 형식 체크 함수 
+	function idCheck(str) {
+		return /^[A-Za-z0-9]{6,12}$/.test(str);
+	}
+	
+	//로그인 편하도록 
+	if(userId.value == "aaaaaa") idChecked.value = 1;
+
+	userId.onkeyup = function() {
+		if (idCheck(userId.value)) {
+			idResultDiv.innerHTML = '';
+			idChecked.value = 1;
+		} else {
+			idResultDiv.innerHTML = '아이디는 6~12자리 영어 또는 숫자만 가능합니다.';
+			idResultDiv.style.color = 'red';
+			idChecked.value = 0;
+
 		}
-/* 	};
- */</script>
+	}
+	
+	/* 비밀번호 확인 */
+	// 1. 비밀번호 입력창 정보 가져오기
+	let userpwd = document.querySelector('#passwd');
+	var pwResultDiv = document.getElementById('pw_result');
+	var pwChecked = document.querySelector('#pwChecked');
+
+	// 2. 비밀번호 형식 체크 함수 
+		function pwCheck(str) {
+		return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,20}$/
+				.test(str);
+	}
+	
+		if(userpwd.value == "aaaaaa1!") pwChecked.value = 1;
+
+	userpwd.onkeyup = function() {
+		if (pwCheck(userpwd.value)) {
+			pwResultDiv.innerHTML = '';
+			pwChecked.value = 1;
+		} else {
+			pwResultDiv.innerHTML = '8~20자리, 영문, 숫자, 특수문자(@$!%*#?&)를 사용하세요.';
+			pwResultDiv.style.color = 'red';
+			pwChecked.value = 0;
+
+		}
+	}
+	
+	//submit
+	function validateForm(){
+		
+		if(idChecked.value == 1 && pwChecked.value == 1){
+			return true;
+		}else {
+			alert("로그인에 실패했습니다.");
+			return false;
+		}
+	}
+	
+	
+	window.onload=function(){
+		var code = '${code}';
+		var msg = '${msg}';
+		
+		if(msg!=''){
+			console.log(msg);
+			alert(msg);
+				
+		}
+		
+	}; 
+	
+</script>
 
 <!--================================
             END LOGIN AREA

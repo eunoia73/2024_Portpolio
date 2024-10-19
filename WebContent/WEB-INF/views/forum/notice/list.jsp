@@ -1,11 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page isELIgnored="false" %>
+<%@ page isELIgnored="false"%>
 <%
 String ctx = request.getContextPath();
 %>
- <c:if test="${not empty code and not empty msg}">
+<%--  <c:if test="${not empty code and not empty msg}">
         <script type="text/javascript">
             window.onload = function() {
                 var code = '${code}';
@@ -16,7 +16,18 @@ String ctx = request.getContextPath();
                 }
             }
         </script>
-    </c:if>
+    </c:if> --%>
+
+<script type="text/javascript">
+	window.onload = function() {
+		var msg = "${param.msg}";
+		if (msg) {
+			alert(decodeURIComponent(msg));
+		}
+	}
+</script>
+
+
 <section class="section--padding2">
 	<div class="container">
 		<div class="row">
@@ -47,15 +58,14 @@ String ctx = request.getContextPath();
 												<td>${i.boardSeq}</td>
 
 
-												<td>
-														<a href="<c:url value='/forum/notice/readPage.do?boardSeq=${i.boardSeq }&boardTypeSeq=${i.boardTypeSeq }'/>" style="color: black">
-															${i.title }</a>
-															
-															<!--첨부파일 여부  -->
-															 <c:if test="${i.attachCnt > 0}"><span class="lnr lnr-paperclip" style="color:#0674ec"></span>${i.attachCnt}</c:if>
-															 <!-- 댓글 여부  -->
-															 <c:if test="${i.commentCnt > 0}" > &nbsp | &nbsp<span class="lnr lnr-bubble" style="color:#7347c1"></span>&nbsp${i.commentCnt}</c:if>
-															  
+												<td><a
+													href="<c:url value='/forum/notice/readPage.do?boardSeq=${i.boardSeq }&boardTypeSeq=${i.boardTypeSeq }'/>"
+													style="color: black"> ${i.title }</a> <!--첨부파일 여부  --> <c:if
+														test="${i.attachCnt > 0}">
+														<span class="lnr lnr-paperclip" style="color: #0674ec"></span>${i.attachCnt}</c:if>
+													<!-- 댓글 여부  --> <c:if test="${i.commentCnt > 0}"> &nbsp | &nbsp<span
+															class="lnr lnr-bubble" style="color: #7347c1"></span>&nbsp${i.commentCnt}</c:if>
+
 												</td>
 
 

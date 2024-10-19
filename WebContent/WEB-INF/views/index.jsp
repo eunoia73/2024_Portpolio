@@ -3,7 +3,27 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="tiles" uri="http://tiles.apache.org/tags-tiles"%>
 
+<%--  <c:if test="${not empty code and not empty msg}">
+        <script type="text/javascript">
+            window.onload = function() {
+                var code = '${code}';
+                var msg = '${msg}';
 
+                if (code !== '') {
+                    alert(msg);
+                }
+            }
+        </script>
+    </c:if> --%>
+
+<script type="text/javascript">
+	window.onload = function() {
+		var msg = "${param.msg}";
+		if (msg) {
+			alert(decodeURIComponent(msg));
+		}
+	}
+</script>
 <!--================================
             START SIGNUP AREA
     =================================-->
@@ -29,7 +49,7 @@
 
 				<div class="testimonial">
 					<div class="testimonial__about">
-						
+
 						<div class="name-designation v_middle">
 							<h4 class="name">Tarashi Hamada</h4>
 						</div>
@@ -45,7 +65,7 @@
 
 				<div class="testimonial">
 					<div class="testimonial__about">
-						
+
 						<div class="name-designation v_middle">
 							<h4 class="name">Tubeda Pagla</h4>
 						</div>
@@ -61,7 +81,7 @@
 
 				<div class="testimonial">
 					<div class="testimonial__about">
-						
+
 						<div class="name-designation v_middle">
 							<h4 class="name">Tarashi Hamada</h4>
 						</div>

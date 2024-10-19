@@ -27,10 +27,9 @@ public class LoginController {
 
 	@Autowired
 	private JoinService joinService;
-	
+
 	@Autowired
 	private LoginService loginService;
-	
 
 	@RequestMapping("/auth/loginPage.do")
 	public ModelAndView loginPage(@RequestParam HashMap<String, String> params) {
@@ -43,8 +42,8 @@ public class LoginController {
 
 	// 로그인
 	@RequestMapping("/login.do")
-	public ModelAndView login(@RequestParam String redirectURL, HttpServletRequest request, HttpServletResponse response,
-			@RequestParam HashMap<String, String> params) {
+	public ModelAndView login(@RequestParam String redirectURL, HttpServletRequest request,
+			HttpServletResponse response, @RequestParam HashMap<String, String> params) {
 		ModelAndView mv = new ModelAndView();
 		MemberDto member = null;
 
@@ -80,23 +79,32 @@ public class LoginController {
 					response.addCookie(cookie);
 
 				}
-				System.out.println("======loginController======");
-				System.out.println("redirectURL"+redirectURL);
-				mv.setViewName("redirect:/"+redirectURL);
 
-				
+				System.out.println("======loginController======");
+				System.out.println("redirectURL" + redirectURL);
+				mv.addObject("code", MessageEnum.SUCCESS_LOGIN.getCode());
+				mv.addObject("msg", MessageEnum.SUCCESS_LOGIN.getDescription());
+
+				mv.setViewName("redirect:/" + redirectURL);
+
 			} else {
-				mv.setViewName("login"); // 로그인 안 되면 다시 로그인 페이지로
 				mv.addObject("code", MessageEnum.PASSWD_NOT_EQUAL.getCode());
 				mv.addObject("msg", MessageEnum.PASSWD_NOT_EQUAL.getDescription());
+				mv.setViewName("auth/login"); // 로그인 안 되면 다시 로그인 페이지로
+
 			}
 		} catch (EmptyResultDataAccessException e) { // 사용자 없을
-			// 여기에 Exception넣는게 가장 무책임한 코드.. 예외를 식별하는게 좋다!
-			mv.setViewName("login"); // 로그인 안 되면 다시 로그인 페이지로
+			// 예외를 식별하는게 좋다!
 			mv.addObject("code", MessageEnum.USER_NOT_FOUND.getCode());
 			mv.addObject("msg", MessageEnum.USER_NOT_FOUND.getDescription());
+			mv.setViewName("auth/login"); // 로그인 안 되면 다시 로그인 페이지로
+
+		} catch (Exception e) {
+			mv.addObject("code", MessageEnum.USER_NOT_FOUND.getCode());
+			mv.addObject("msg", MessageEnum.USER_NOT_FOUND.getDescription());
+			mv.setViewName("auth/login"); // 로그인 안 되면 다시 로그인 페이지로
 		}
- 
+
 		return mv;
 	}
 
@@ -124,18 +132,28 @@ public class LoginController {
 
 	// memberSeq 찾기, 비밀번호 변경 위한 인증메일 보내기
 	@RequestMapping("/auth/searchPw.do")
-	public ModelAndView searchPw(@RequestParam HashMap<String, String> params, RedirectAttributes ra) {
+	public ModelAndView searchPw(@RequestParam HashMap<String, String> params) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
-		
-		//성공로직 
-		System.out.println(params);
-		loginService.searchPasswd(params.get("memberId"), params.get("email"));
-		
-		ra.addAttribute("code", MessageEnum.SUCCESS.getCode());
-		ra.addAttribute("code", MessageEnum.SUCCESS.getDescription());
-		
-		mv.setViewName("auth/login");
+
+		// id가 db에 존재하는지 확인하기
+		int existId = loginService.existMemberId(params.get("memberId"));
+		System.out.println("?????existId"+existId);
+
+		if (existId == 1) {
+			// 성공로직
+			System.out.println(params);
+			int result = loginService.searchPasswd(params.get("memberId"), params.get("email"));
+			System.out.println("result =====" + result);
+
+			mv.addObject("code", MessageEnum.SUCCESS_SEND_EMAIL.getCode());
+			mv.addObject("msg", MessageEnum.SUCCESS_SEND_EMAIL.getDescription());
+			mv.setViewName("auth/login");
+		}else {
+			mv.addObject("code", MessageEnum.USER_NOT_FOUND.getCode());
+			mv.addObject("msg", MessageEnum.USER_NOT_FOUND.getDescription());
+			mv.setViewName("auth/recover-password-auth");
+		}
 
 		return mv;
 	}
@@ -147,7 +165,10 @@ public class LoginController {
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
 
 		System.out.println("=========memberSeq+++++++++" + params.get("memberSeq"));
-
+		//memberSeq로 memberId찾기 
+		String memberId = loginService.getMemberIdByMemberSeq(Integer.parseInt(params.get("memberSeq")));
+		
+		mv.addObject("memberId", memberId);
 		mv.addObject("memberSeq", params.get("memberSeq"));
 		mv.setViewName("auth/recover-password-form");
 

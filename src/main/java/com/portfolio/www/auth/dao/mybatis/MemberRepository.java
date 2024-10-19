@@ -14,7 +14,7 @@ public interface MemberRepository {
 	// 회원가입
 	public int join(MemberDto member);
 
-	// 중복아이디 여부
+	// 중복아이디 여부(아이디 존재 여부) 
 	public int existMemberId(String memberId);
 
 	// memberId로 memberSeq 찾기

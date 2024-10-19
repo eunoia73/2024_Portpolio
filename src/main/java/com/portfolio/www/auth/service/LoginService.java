@@ -54,6 +54,7 @@ public class LoginService {
 	// 2. 인증메일을 보낸다.
 	// 3. 인증메일 링크를 통해 비밀번호 변경 페이지로
 	public int searchPasswd(String memberId, String email) {
+		
 		// 1.db에서 비밀번호 있는지 확인
 		Integer memberSeq = memberRepository.searchMemberSeq(memberId, email);
 		// 일단 확인
@@ -109,4 +110,16 @@ public class LoginService {
 	public MemberDto getMemberByMemberSeq(int memberSeq) {
 		return memberRepository.getMemberByMemberSeq(memberSeq);
 	}
+	
+	//db에 아이디 존재하는지 확인하기
+	public int existMemberId(String memberId) {
+		return memberRepository.existMemberId(memberId);
+	}
+	
+	//memberSeq로 memberId찾기 
+	public String getMemberIdByMemberSeq(int memberSeq) {
+		return memberRepository.getMemberId(memberSeq);
+	}
+	
+	
 }

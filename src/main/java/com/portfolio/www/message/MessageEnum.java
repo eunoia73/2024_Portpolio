@@ -23,8 +23,10 @@ public enum MessageEnum {
 	
 	VERIFY_NAME_LENGTH("9031","이름은 2~12자리여야 합니다."),
 	
-	VERIFY_EMPTY("9998","빈칸일 수 없습니다.")
-
+	VERIFY_EMPTY("9998","빈칸일 수 없습니다."),
+	
+	SUCCESS_LOGIN("0001","환영합니다!"),
+	SUCCESS_SEND_EMAIL("0002","성공적으로 이메일이 발송되었습니다. 이메일을 확인해주세요.")
 	;
 	
 	MessageEnum(String code, String description){
