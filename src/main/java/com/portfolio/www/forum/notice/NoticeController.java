@@ -35,7 +35,7 @@ public class NoticeController {
 	@Autowired
 	private BoardCommentService commentService;
 	
-	@RequestMapping("/forum//notice/listPage.do")
+	@RequestMapping("/forum/notice/listPage.do")
 	public ModelAndView listPage(@RequestParam HashMap<String, String> params) {
 		ModelAndView mv = new ModelAndView();
 		mv.addObject("key", Calendar.getInstance().getTimeInMillis());
@@ -238,7 +238,7 @@ public class NoticeController {
 		return mv;
 	}
 
-	// 게시글& 첨부파일 DELETE
+	// 게시글 DELETE (첨부파일, 댓글, 좋아요/싫어요 삭제)
 	@RequestMapping("/forum/notice/deleteBoard.do")
 	public ModelAndView deleteBoardAndAttach(@RequestParam("boardSeq") int boardSeq,
 			@RequestParam("boardTypeSeq") int boardTypeSeq,

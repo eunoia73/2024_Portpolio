@@ -141,6 +141,23 @@
       AND member_seq = #{memberSeq}
     </delete>
     
+    <!-- 게시글 삭제시 사용 -->
+    <!-- 게시글 별 전체 좋아요 삭제하기  -->
+    <delete id = "deleteAllLike" parameterType="int">
+    DELETE FROM forum.board_like
+    WHERE board_seq = #{boardSeq}
+      AND board_type_seq = #{boardTypeSeq}
+    </delete>
+    
+    <!-- 게시글 별 전체 싫어요 삭제하기  -->
+    <delete id = "deleteAllDisLike" parameterType="int">
+    DELETE FROM forum.board_dislike
+    WHERE board_seq = #{boardSeq}
+      AND board_type_seq = #{boardTypeSeq}
+    </delete>
+    
+    
+    
 </mapper>
 
   

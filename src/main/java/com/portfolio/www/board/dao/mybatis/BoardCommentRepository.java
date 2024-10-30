@@ -26,6 +26,10 @@ public interface BoardCommentRepository {
 	//댓글 삭제 
 	public int deleteComment(@Param("commentSeq")int commentSeq);
 	
+	//댓글 전체 삭제(게시글 삭제 시)
+	public int deleteAllComment(@Param("boardSeq")int boardSeq, @Param("boardTypeSeq")int boardTypeSeq);
+
+	
 	//commentSeq로 memberSeq 불러오기 
 	public int getMemberSeq(@Param("commentSeq") int commentSeq);
 	

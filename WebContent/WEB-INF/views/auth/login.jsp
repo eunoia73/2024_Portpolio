@@ -48,9 +48,15 @@ if (query == null || query.equals("")) {
 
 
 							<div class="form-group">
-								<label for="pass">비밀번호</label> <input id="passwd" name="passwd"
+								<label for="pass">비밀번호</label>
+								<div>
+								
+								 <input id="passwd" name="passwd"
 									type="text" class="text_field" value="aaaaaa1!"
-									placeholder="비밀번호를 입력해주세요." required>
+									placeholder="비밀번호를 입력해주세요." required >
+									
+									
+								</div>	
 								<div id="pw_result"></div>
 								<input id="pwChecked" value="0" hidden>
 							</div>

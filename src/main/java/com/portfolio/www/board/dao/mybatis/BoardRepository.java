@@ -47,6 +47,12 @@ public interface BoardRepository {
 		
 	//싫어요 삭제하기
 	public int deleteDisLike(@Param("boardSeq") int boardSeq,  @Param("boardTypeSeq")int boardTypeSeq, @Param("memberSeq")int memberSeq);
-		
 	
+	//게시글 삭제시 사용
+	//게시글 별 전체 좋아요 삭제하기
+	public int deleteAllLike(@Param("boardSeq") int boardSeq,  @Param("boardTypeSeq")int boardTypeSeq);
+	
+	//게시글 별 전체 싫어요 삭제하기
+	public int deleteAllDisLike(@Param("boardSeq") int boardSeq,  @Param("boardTypeSeq")int boardTypeSeq);
+
 }

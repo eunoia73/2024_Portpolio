@@ -47,7 +47,7 @@ public class LoginFilter extends HttpFilter implements Filter {
 	
 	//로그인 하지 않으면 진입하지 못하는 uri 모두 배열에 담기 
 	private final String[] LOGIN_REQUIRED_URI = {
-			"/forum//notice/listPage.do",
+			"/forum/notice/listPage.do",
 			"/forum/notice/writePage.do",
 			"/forum/notice/readPage.do",
 			"/forum/notice/deleteBoard.do",
