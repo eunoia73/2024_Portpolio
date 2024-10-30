@@ -5,24 +5,22 @@
 <%
 String ctx = request.getContextPath();
 %>
-<%--  <c:if test="${not empty code and not empty msg}">
-        <script type="text/javascript">
-            window.onload = function() {
-                var code = '${code}';
-                var msg = '${msg}';
-
-                if (code !== '') {
-                    alert(msg);
-                }
-            }
-        </script>
-    </c:if> --%>
-
 <script type="text/javascript">
 	window.onload = function() {
-		var msg = "${param.msg}";
-		if (msg) {
-			alert(decodeURIComponent(msg));
+		// 첫 번째 조건문
+		<c:if test="${not empty code and not empty msg}">
+			var code = '${code}';
+			var msg = '${msg}';
+
+			if (code !== '') {
+				alert(msg);
+			}
+		</c:if>
+
+		// 두 번째 조건문
+		var paramMsg = "${param.msg}";
+		if (paramMsg) {
+			alert(decodeURIComponent(paramMsg));
 		}
 	}
 </script>
@@ -37,7 +35,7 @@ String ctx = request.getContextPath();
 						<div class="withdraw_module withdraw_history">
 
 							<div class="withdraw_table_header">
-								<h3>공지사항</h3>
+								<h3>자유게시판</h3>
 							</div>
 							<div class="table-responsive">
 								<table class="table withdraw__table">

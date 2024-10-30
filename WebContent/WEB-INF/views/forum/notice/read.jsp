@@ -231,7 +231,7 @@ String ctx = request.getContextPath();
     	console.log(boardSeq);
     	console.log(boardTypeSeq);
     	
-    	let url = '<%=ctx%>/forum//notice/thumb-up.do?';
+    	let url = '<%=ctx%>/forum/notice/thumb-up.do?';
     	url += 'boardSeq=' + boardSeq;
     	url += '&boardTypeSeq=' + boardTypeSeq;
     	

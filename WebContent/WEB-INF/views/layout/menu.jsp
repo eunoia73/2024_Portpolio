@@ -265,11 +265,11 @@ if (session.getAttribute("memberId") != null) {
 										</div>
 									</div></li> -->
 
-								<li class="has_dropdown"><a href="">게시판</a>
+								<li class="has_dropdown"><a href="<c:url value='/forum/notice/listPage.do'/>">게시판</a>
 									<div class="dropdowns dropdown--menu">
 										<ul>
 											<li><a
-												href="<c:url value='/forum//notice/listPage.do'/>">공지사항</a>
+												href="<c:url value='/forum/notice/listPage.do'/>">자유게시판</a>
 											</li>
 											<!-- <li><a href="all-products.html">Popular Items</a></li>
 											<li><a href="index3.html">Free Templates</a></li>

@@ -63,6 +63,12 @@
 	 WHERE comment_seq=#{commentSeq};
 	</delete>
 	
+	<!-- 게시글 삭제 시 댓글 전체 삭제 -->
+	<delete id="deleteAllComment" parameterType="int">
+	DELETE FROM forum.board_comment
+	WHERE board_seq=#{boardSeq} AND board_type_seq=#{boardTypeSeq};	
+	</delete>
+	
 	<!-- 작성자 확인 -->
 	<select id="getMemberSeq" parameterType="int" resultType="int">
 	SELECT member_seq

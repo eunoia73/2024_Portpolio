@@ -4,13 +4,13 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.portfolio.www.board.dao.mybatis.BoardAttachRepository;
+import com.portfolio.www.board.dao.mybatis.BoardCommentRepository;
 import com.portfolio.www.board.dao.mybatis.BoardRepository;
 import com.portfolio.www.board.dto.BoardAttachDto;
 import com.portfolio.www.board.dto.BoardDto;
@@ -26,6 +26,9 @@ public class BoardService {
 
 	@Autowired
 	private BoardAttachRepository boardAttachRepository;
+	
+	@Autowired
+	private BoardCommentRepository boardCommentRepository;
 
 	@Autowired
 	private FileUtil fileUtil;
@@ -247,10 +250,14 @@ public class BoardService {
 		return boardAttachRepository.deleteAttach(attachSeq);
 	}
 
-	//게시글 삭제 (첨부파일도) 
+	//게시글 삭제 (첨부파일, 댓글, 좋아요, 싫어요) 
 	public int deleteBoard(int boardSeq, int boardTypeSeq) {
 		
 		int attachResult = boardAttachRepository.deleteAllAttach(boardSeq, boardTypeSeq);
+		int commentResult = boardCommentRepository.deleteAllComment(boardSeq, boardTypeSeq);
+		int deleteAllLike = boardRepository.deleteAllLike(boardSeq, boardTypeSeq);
+		int deleteAllDisLike = boardRepository.deleteAllDisLike(boardSeq, boardTypeSeq);
+		
 		
 		return boardRepository.deleteBoard(boardSeq, boardTypeSeq);
 	}

@@ -22,7 +22,7 @@ public class RestNoticeController {
 	@Autowired
 	private BoardService boardService;
 	
-	@GetMapping("/forum//notice/thumb-up.do")
+	@GetMapping("/forum/notice/thumb-up.do")
 	@ResponseBody
 	public int thumbUp(@RequestParam("boardSeq") int boardSeq,
 			@RequestParam("boardTypeSeq") int boardTypeSeq,
