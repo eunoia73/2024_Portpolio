@@ -1,7 +1,6 @@
 # 2024_Portpolio
   
 ## 📄 프로젝트 목표
-<hr>
 
 웹사이트의 기본 기능을 개발하고 배포하는 경험을 쌓는 것을 목표로 한다.
 
@@ -13,7 +12,6 @@
 
 
 ## ⚙️ 기술스택
-<hr>
 
 Backend
 `SpringFramework(5.3.32)` `Maven(3.9.6)` `MyBatis` `JUnit5`
@@ -31,7 +29,6 @@ Etc
 `GitHub` `Sourctree` 
 
 ## 🛠️ 구현기능
-<hr>
 
 ### 1.  **회원가입**
 
